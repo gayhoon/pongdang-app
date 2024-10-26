@@ -34,3 +34,17 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+pongdang
+├── node_modules      # 프로젝트 의존성
+├── public            # 정적 파일 (이미지, 아이콘 등)
+├── src
+│   ├── pages         # 페이지 컴포넌트 (라우팅)
+│   │   ├── index.tsx # 기본 홈 페이지
+│   │   └── _app.tsx  # 커스텀 앱 설정
+│   └── styles        # 전역 스타일 파일
+├── .eslintrc.json    # ESLint 설정 파일
+├── next.config.js    # Next.js 설정 파일
+├── package.json      # 프로젝트 의존성 및 스크립트 설정
+└── tsconfig.json     # TypeScript 설정 파일
