@@ -11,7 +11,7 @@ interface Board{
   content: string,
 }
 
-export default () => {
+const Home = () => {
   
   const [boards, setBoards] = useState<Board[]>([])
 
@@ -36,3 +36,5 @@ export default () => {
     </div>
   );
 }
+
+export default Home

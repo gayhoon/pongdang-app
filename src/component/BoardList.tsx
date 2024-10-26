@@ -8,7 +8,7 @@ interface BoardListProps{
     boards: Board[];
 }
 
-export default ({boards}:BoardListProps) => {
+const BoardList = ({boards}:BoardListProps) => {
 
   return (
     <div style={{marginTop: '40px'}}>
@@ -24,3 +24,5 @@ export default ({boards}:BoardListProps) => {
     </div>
   );
 };
+
+export default BoardList

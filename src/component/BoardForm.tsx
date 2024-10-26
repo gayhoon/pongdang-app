@@ -7,7 +7,7 @@ interface BoardFormProps {
     onPostSuccess: () => void; // 게시글 작성 성공 시 호출할 함수
 }
 
-export default ({onPostSuccess}:BoardFormProps) => {
+const BoardForm = ({onPostSuccess}:BoardFormProps) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -44,3 +44,5 @@ export default ({onPostSuccess}:BoardFormProps) => {
     </form>
   );
 };
+
+export default BoardForm
