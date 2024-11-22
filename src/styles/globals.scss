@@ -1,0 +1,70 @@
+html, body{
+    font-size: 10px;
+    color: #383840;
+}
+
+.sub_menu_wrap{
+    > header{
+        padding: 0 0 0 1.5rem;
+        height: 5rem;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #E9E9E9;
+
+        > .title{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            > .logo{
+                width: 65px;
+            }
+
+            > hr{
+                display: block;
+                width: 2px;
+                height: 10px;
+                background-color: #F3F3F5;
+                border: 0;
+            }
+
+            > .menu_name{
+                height: 18px;
+            }
+        }
+    }
+    .depth_menu_wrap{
+        height: 7rem;
+        border-bottom: 1px solid #E9E9E9;
+
+        > ul{
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            > li{
+                display: flex;
+                height: 100%;
+                justify-content: space-between;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                flex-grow: 1;
+                padding: 0.8rem 0;
+
+                > p{
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                }
+
+                svg{
+                    flex-grow: 1;
+
+                    &.fishing_trip{
+                        width: 2.7rem;
+                    }
+                }
+            }
+        }
+    }
+}
