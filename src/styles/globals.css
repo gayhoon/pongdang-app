@@ -3,12 +3,20 @@ html, body {
   color: #383840;
 }
 
+.sub_menu_wrap {
+  padding-top: 5rem;
+}
 .sub_menu_wrap > header {
   padding: 0 0 0 1.5rem;
   height: 5rem;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #E9E9E9;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  z-index: 99;
 }
 .sub_menu_wrap > header > .title {
   display: flex;
@@ -47,6 +55,9 @@ html, body {
   flex-grow: 1;
   padding: 0.8rem 0;
 }
+.sub_menu_wrap .depth_menu_wrap > ul > li.yet {
+  opacity: 0.5;
+}
 .sub_menu_wrap .depth_menu_wrap > ul > li > p {
   font-size: 1.1rem;
   font-weight: bold;
@@ -54,6 +65,18 @@ html, body {
 .sub_menu_wrap .depth_menu_wrap > ul > li svg {
   flex-grow: 1;
 }
-.sub_menu_wrap .depth_menu_wrap > ul > li svg.fishing_trip {
+.sub_menu_wrap .depth_menu_wrap > ul > li svg.home {
   width: 2.7rem;
+}
+.sub_menu_wrap .depth_menu_wrap > ul > li svg.fishing_trip {
+  width: 2.6rem;
+}
+.sub_menu_wrap .depth_menu_wrap > ul > li svg.knowhow {
+  width: 2.6rem;
+}
+.sub_menu_wrap .depth_menu_wrap > ul > li svg.trade {
+  width: 3.3rem;
+}
+.sub_menu_wrap .depth_menu_wrap > ul > li svg.daily {
+  width: 3rem;
 }/*# sourceMappingURL=globals.css.map */

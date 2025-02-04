@@ -1,1 +1,102 @@
-/*# sourceMappingURL=page.module.css.map */
+.fishing_trip_list_wrap {
+  padding: 0 20px;
+}
+.fishing_trip_list_wrap > li {
+  padding: 15px 0;
+  border-bottom: 1px solid #F7F7F9;
+}
+.fishing_trip_list_wrap > li:last-child {
+  border-bottom: none;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap > .top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap > .top > .cate {
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 3px;
+  line-height: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap > .top > .cate.daily {
+  background-color: #DBFAFF;
+  color: #50AEE8;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap > .top > p {
+  flex-grow: 1;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap > .down {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #6a6a6a;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap > .down > .name {
+  margin-right: 15px;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap > .down > .time {
+  background-image: url("/images/icons/ic_small_time.svg");
+  background-size: 10px 10px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 13px;
+  line-height: 100%;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap > .down > .view {
+  background-image: url("/images/icons/ic_small_view.svg");
+  background-size: 13px 9px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 16px;
+  line-height: 100%;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .info_wrap > .down > .like {
+  background-image: url("/images/icons/ic_small_like.svg");
+  background-size: 12px 10px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  padding-left: 15px;
+  line-height: 100%;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .thumb {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 7px;
+  overflow: hidden;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .reply {
+  background: #F2F2F2;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 50px;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .reply > p.num {
+  font-family: "Pretendard", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+.fishing_trip_list_wrap > li > a > .inside_wrap > .reply > p.static {
+  font-size: 1rem;
+}/*# sourceMappingURL=page.module.css.map */

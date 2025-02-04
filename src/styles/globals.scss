@@ -4,12 +4,20 @@ html, body{
 }
 
 .sub_menu_wrap{
+    padding-top: 5rem;
+
     > header{
         padding: 0 0 0 1.5rem;
         height: 5rem;
         display: flex;
         align-items: center;
-        border-bottom: 1px solid #E9E9E9;
+        // border-bottom: 1px solid #E9E9E9;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        z-index: 99;
 
         > .title{
             display: flex;
@@ -33,6 +41,11 @@ html, body{
             }
         }
     }
+
+    > footer{
+
+    }
+
     .depth_menu_wrap{
         height: 7rem;
         border-bottom: 1px solid #E9E9E9;
@@ -52,6 +65,10 @@ html, body{
                 flex-grow: 1;
                 padding: 0.8rem 0;
 
+                &.yet{
+                    opacity: 0.5;
+                }
+
                 > p{
                     font-size: 1.1rem;
                     font-weight: bold;
@@ -60,8 +77,24 @@ html, body{
                 svg{
                     flex-grow: 1;
 
-                    &.fishing_trip{
+                    &.home{
                         width: 2.7rem;
+                    }
+
+                    &.fishing_trip{
+                        width: 2.6rem;
+                    }
+
+                    &.knowhow{
+                        width: 2.6rem;
+                    }
+
+                    &.trade{
+                        width: 3.3rem;
+                    }
+
+                    &.daily{
+                        width: 3rem;
                     }
                 }
             }
