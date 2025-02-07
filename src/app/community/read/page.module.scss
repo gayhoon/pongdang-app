@@ -1,0 +1,86 @@
+.contents_wrap{
+    padding: 20px 0px 20px 0px;
+    
+    > .contents_min{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        > h3{
+            font-size: 1.7rem;
+            padding: 0 20px;
+        }
+
+        > .write_info_wrap{
+            padding: 0 20px;
+            display: flex;
+
+            > .user_picture{
+                width: 36px;
+                height: 36px;
+                border-radius: 36px;
+                overflow: hidden;
+            }
+
+            > .write_info_min{
+                margin-left: 8px;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                justify-content: center;
+
+                > .user_info{
+                    display: flex;
+                    align-items: center;
+
+                    > .user_name{
+                        font-size: 1.3rem;
+                    }
+    
+                    > .user_level{
+                        font-size: 1.0rem;
+                        background-color: rgb(228, 236, 255);
+                        color: rgb(88, 80, 255);
+                        padding: 2px 6px;
+                        border-radius: 4px;
+                        margin-left: 5px;
+                    }
+                }
+
+                > .write_info{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+
+                    > .time{
+                        background-image: url('/images/icons/ic_small_time.svg');
+                        background-size: 10px 10px;
+                        background-repeat: no-repeat;
+                        background-position: left center;
+                        padding-left: 13px;
+                        line-height: 100%;
+                    }
+
+                    > .view{
+                        background-image: url('/images/icons/ic_small_view.svg');
+                        background-size: 13px 9px;
+                        background-repeat: no-repeat;
+                        background-position: left center;
+                        padding-left: 16px;
+                        line-height: 100%;
+                    }
+
+                    > .like{
+                        background-image: url('/images/icons/ic_small_like.svg');
+                        background-size: 12px 10px;
+                        background-repeat: no-repeat;
+                        background-position: left center;
+                        padding-left: 15px;
+                        line-height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

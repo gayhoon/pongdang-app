@@ -1,0 +1,35 @@
+header.submenupage_header{
+    padding: 0 0 0 1.5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    // border-bottom: 1px solid #E9E9E9;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    z-index: 99;
+
+    > .title{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        > .logo{
+            width: 65px;
+        }
+
+        > hr{
+            display: block;
+            width: 2px;
+            height: 10px;
+            background-color: #F3F3F5;
+            border: 0;
+        }
+
+        > .menu_name{
+            height: 18px;
+        }
+    }
+}

@@ -1,0 +1,13 @@
+.contents_wrap{
+    padding: 10px 20px 20px 20px;
+    
+    > h2{
+        font-size: 1.8rem;
+        font-weight: 800;
+    }
+
+    > ul{
+        display: flex;
+        flex-direction: column;
+    }
+}
