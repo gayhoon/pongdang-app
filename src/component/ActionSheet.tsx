@@ -73,7 +73,7 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
               <div className={styles.type_list}>
                 <ul>
                   <li>
-                    <Link href="/community/write"><p>조행기</p></Link>
+                    <Link href="/community/fishingTrip/write"><p>조행기</p></Link>
                   </li>
                   <li>
                     <Link href=""><p>노하우</p></Link>
@@ -172,6 +172,59 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
                   <AutoResizeTextarea />
                 </section>
               </div>
+            )}
+
+            {type === "readFish" && (
+              <div className={styles.type_radio}>
+              <header>
+                <button type="button" className="link_cancel" onClick={onClose}>닫기</button>
+              </header>
+              <section>
+                {/* ✅ 어종 크기 슬라이더 */}
+                <div className="fish_size_slider_wrap">
+                    <Image 
+                      src={fishTypeArry.find(f => f.name === checkedItems[0].name)?.imgSrc || ""}
+                      alt="fish"
+                      width={0}
+                      height={200}
+                      sizes="(max-width: 768px) 100vw, 70vw"
+                      style={{
+                        objectFit: "contain",
+                        height: "auto",
+                        width: `${(checkedItems[0].size / 70) * 100}%`,
+                        transition: "width 0.2s ease",
+                      }}
+                      priority
+                    />
+                    
+                    <h4>{checkedItems[0].name} 크기 : {checkedItems[0].size}cm</h4>
+                  </div>
+
+                  {/* 사진 업로드 */}
+                  <div className="picture_wrap">
+                    {image ? <Image 
+                      src={image}
+                      alt="Uploaded Preview"
+                      width={100}
+                      height={100}
+                      style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
+                      priority
+                    /> : <p className="noPicture">등록된 사진이 없습니다.</p>}
+                  </div>
+
+                  {/* 별명 입력 */}
+                  <div className="nickname_wrap read">
+                    <span>별명</span>
+                    <p>배식이</p>
+                  </div>
+
+                  {/* 설명 입력 */}
+                  <div className="detail_wrap">
+                    <span>설명</span>
+                    <p>프리리그로 잡았음</p>
+                  </div>
+              </section>
+            </div>
             )}
           </div>
         </div>

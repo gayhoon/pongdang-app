@@ -1,5 +1,45 @@
+.layout_read_wrap{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    max-height: 100dvh;
+    
+    > header{
+
+        &.layout_read_wrap_header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 60px;
+            position: relative;
+
+            > .center{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: -1;
+
+                > h2{
+                    font-size: 1.7rem;
+                }
+            }
+
+            > .right{
+                display: flex;
+                gap: 20px;
+            }
+        }
+    }
+}
+
 .contents_wrap{
-    padding: 20px 0px 20px 0px;
+    padding: 10px 0px 20px 0px;
+    overflow-y: auto;
     
     > .contents_min{
         display: flex;
@@ -57,7 +97,7 @@
                         background-image: url('/images/icons/ic_small_time.svg');
                         background-size: 10px 10px;
                         background-repeat: no-repeat;
-                        background-position: left center;
+                        background-position: left 0px;
                         padding-left: 13px;
                         line-height: 100%;
                     }
@@ -81,6 +121,45 @@
                     }
                 }
             }
+        }
+
+        > .image_wrap{
+            > img{}
+        }
+
+        > .location_wrap{
+            padding: 0 20px;
+
+            > .location_min{
+                background-color: rgb(243, 243, 246);
+                border: 1px solid rgb(231, 232, 235);
+                border-radius: 16px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 12px 10px;
+
+                > p{
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        > .detail_wrap{
+            padding: 0 20px;
+
+            > .detail_min{
+
+                > p{
+                    font-size: 1.6rem;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        > .fish_list_wrap{
+            padding: 0 20px;
         }
     }
 }

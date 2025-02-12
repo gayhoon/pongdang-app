@@ -1,4 +1,7 @@
 .layout_write_wrap{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    max-height: 100dvh;
     
     > header{
 

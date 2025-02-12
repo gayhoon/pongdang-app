@@ -200,6 +200,15 @@ button.btn_action_sheet_open{
     flex-direction: column;
     gap: 10px;
 
+    > .noPicture{
+        font-size: 1.2rem;
+        border: 1px solid #e1e1e1;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background-color: #fbfbfb;
+        text-align: center;
+    }
+
     > input[type="file"]{
         display: none;
     }
@@ -258,3 +267,29 @@ button.btn_action_sheet_open{
     border: 0;
 }
 
+.nickname_wrap{
+
+    &.read{
+        > span{
+            font-size :1.2rem;
+            color: #b3b3b3;
+        }
+
+        > p{
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+    }
+}
+
+.detail_wrap{
+    > span{
+        font-size :1.2rem;
+        color: #b3b3b3;
+    }
+
+    > p{
+        font-size: 1.6rem;
+        font-weight: 500;
+    }
+}
