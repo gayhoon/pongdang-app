@@ -25,8 +25,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <PreventZoom />
-        {children}
+        <div className="root">
+          <PreventZoom />
+          {children}
+        </div>
       </body>
     </html>
   );

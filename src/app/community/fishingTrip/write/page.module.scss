@@ -1,3 +1,25 @@
+.layout_write_wrap{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    max-height: 100dvh;
+    
+    > header{
+
+        &.layout_write_wrap_header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 60px;
+
+            > .right{
+                display: flex;
+                gap: 20px;
+            }
+        }
+    }
+}
+
 .contents_wrap{
     padding: 10px 20px 20px 20px;
     overflow-y: auto;

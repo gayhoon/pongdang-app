@@ -1,0 +1,259 @@
+@charset "UTF-8";
+html, body {
+  font-size: 10px;
+  color: #383840;
+  touch-action: manipulation; /* 줌, 더블 탭 방지 */
+  -ms-touch-action: manipulation; /* IE 지원 */
+  overscroll-behavior: contain; /* 추가적인 화면 확대 방지 */
+}
+
+input, textarea {
+  display: flex;
+  width: 100%;
+  padding: 14.5px 0px;
+  font-size: 1.5rem;
+  line-height: 23px;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid rgb(228, 228, 228);
+  font-weight: 500;
+  font-family: "Pretendard", sans-serif;
+  outline: 0;
+  border-radius: 0;
+}
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #979797;
+}
+input::placeholder, textarea::placeholder {
+  color: #979797;
+}
+
+textarea {
+  border-bottom: 0;
+  min-height: 150px;
+  overflow: hidden;
+  resize: "none";
+  border-bottom: 1px solid rgb(228, 228, 228);
+}
+
+button.btn_action_sheet_open {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18.5px 0px;
+  border: 0;
+  border-bottom: 1px solid rgb(228, 228, 228);
+  outline: 0;
+  background: none;
+}
+button.btn_action_sheet_open > p {
+  text-align: left;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  font-family: "Pretendard", sans-serif;
+  color: #979797;
+}
+button.btn_action_sheet_open > .checked_items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+button.btn_action_sheet_open > .checked_items > span {
+  text-align: left;
+  font-size: 1.4rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+  font-family: "Pretendard", sans-serif;
+  padding: 4px 8px;
+  background-color: rgb(238, 240, 246);
+  border-radius: 50px;
+}
+
+.fish_list_wrap {
+  margin-top: 20px;
+}
+.fish_list_wrap > h2 {
+  font-size: 1.5rem;
+  line-height: 100%;
+  margin-bottom: 10px;
+}
+.fish_list_wrap > ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.fish_list_wrap > ul > li {
+  flex-grow: 1;
+}
+.fish_list_wrap > ul > li > button {
+  width: 100%;
+  height: 145px;
+}
+.fish_list_wrap > ul > li > button.fish {
+  background-color: transparent;
+  border: 1px solid rgb(214, 216, 223);
+  display: flex;
+  flex-direction: column;
+}
+.fish_list_wrap > ul > li > button.fish > .thumb_wrap {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fish_list_wrap > ul > li > button.fish > .thumb_wrap > span.cate {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background-color: #eef0f6;
+  padding: 4px 7px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.fish_list_wrap > ul > li > button.fish > .text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: center;
+  width: 100%;
+  height: 45px;
+  align-items: center;
+  background-color: #fdfdfd;
+  justify-content: center;
+  border-top: 1px solid #ebf5f5;
+}
+.fish_list_wrap > ul > li > button.fish > .text > span {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: block;
+  width: 100%;
+}
+.fish_list_wrap > ul > li > button.fish > .text > p {
+  font-size: 1.2rem;
+}
+.fish_list_wrap > ul > li > button.add {
+  border: 1px solid #aeeaf3;
+  background-color: #f0feff;
+  position: relative;
+  font-size: 0;
+}
+.fish_list_wrap > ul > li > button.add::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 4px;
+  background: #aeeaf3;
+  left: calc(50% - 10px);
+  top: calc(50% - 2px);
+}
+.fish_list_wrap > ul > li > button.add::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 4px;
+  height: 20px;
+  background: #aeeaf3;
+  left: calc(50% - 2px);
+  top: calc(50% - 10px);
+}
+
+.fish_size_slider_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.fish_size_slider_wrap > h4 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.picture_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.picture_wrap > .noPicture {
+  font-size: 1.2rem;
+  border: 1px solid #e1e1e1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background-color: #fbfbfb;
+  text-align: center;
+}
+.picture_wrap > input[type=file] {
+  display: none;
+}
+.picture_wrap > label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #7d7d7d;
+  text-align: center;
+  height: 41px;
+  font-size: 1.4rem;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.picture_wrap > label > svg {
+  width: 1.8rem;
+  margin-right: 10px;
+  margin-top: -1px;
+}
+.picture_wrap > img {
+  width: 100%;
+}
+
+.btn_save {
+  font-size: 1.6rem;
+  background: none;
+  border: 0;
+  font-weight: 500;
+  background-color: rgb(231, 232, 235);
+  padding: 4px 12px;
+  border-radius: 50px;
+  color: #fff;
+  background-color: #00d7f3;
+  word-break: keep-all;
+}
+
+.link_cancel {
+  font-size: 1.6rem;
+  font-weight: 500;
+  word-break: keep-all;
+  background-color: transparent;
+  border: 0;
+}
+
+.link_header_before {
+  font-size: 0;
+  font-weight: 500;
+  word-break: keep-all;
+  background-color: transparent;
+  border: 0;
+}
+
+.nickname_wrap.read > span {
+  font-size: 1.2rem;
+  color: #b3b3b3;
+}
+.nickname_wrap.read > p {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.detail_wrap > span {
+  font-size: 1.2rem;
+  color: #b3b3b3;
+}
+.detail_wrap > p {
+  font-size: 1.6rem;
+  font-weight: 500;
+}/*# sourceMappingURL=globals.css.map */

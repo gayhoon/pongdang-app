@@ -1,0 +1,48 @@
+/* Modern CSS Reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+  font-family: "Pretendard", sans-serif;
+  background-color: #fff;
+  color: #383840;
+}
+body * {
+  font-size: 1.1rem;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  font-family: "Pretendard", sans-serif;
+}
+
+button {
+  font-family: "Pretendard", sans-serif;
+  color: inherit;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}/*# sourceMappingURL=reset.css.map */

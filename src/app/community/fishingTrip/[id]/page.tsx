@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 
 import Image from 'next/image'
 import Link from "next/link"
@@ -9,9 +10,53 @@ import styles from "./page.module.scss"
 import FishList from '@/component/FishList';
 import ActionSheet from '@/component/ActionSheet';
 
+type FishingTrip = 
+  { 
+    id: number, 
+    cate: string, 
+    title: string, 
+    nickname: string, 
+    date: string, 
+    view: number, 
+    fish: number, 
+    images: string[], 
+    reply: number,
+    location: string,
+    detail: string
+  };
+
 export default function Read() {
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const { id } = useParams(); // ✅ URL에서 ID 가져오기
+  const [post, setPost] = useState<FishingTrip | null>(null);
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
+
+  // ✅ 특정 게시글 데이터 가져오기
+  useEffect(() => {
+    if (!id) return;
+    setLoading(true); //API 요청 시작 전 로딩 상태 true
+    fetch(`http://localhost:8090/api/v1/fishingTrip/${id}`)
+      .then((res) => {
+        if(!res.ok){
+          throw new Error(`게시글을 찾을 수 없습니다. (HTTP ${res.status})`);
+        }
+        return res.json()}
+      )
+      .then((data) => setPost(data))
+      .catch((error) => console.error("게시글 불러오기 실패:", error))
+      .finally(()=> setLoading(false)); // 요청 완료 후 로딩 상태 해제
+  }, [id]);
+
+  // 로딩 중일 때
+  if(loading){
+    return <>게시글을 불러오는 중 ...</>
+  }
+
+  // 데이터가 들어오지 않았을 때
+  if(!post){
+    return <>게시글을 찾을 수 없습니다.</>
+  }
 
   return (
     <div className={styles.layout_read_wrap}>
@@ -26,7 +71,7 @@ export default function Read() {
       </header>
       <div className={styles.contents_wrap}>
         <div className={styles.contents_min}>
-          <h3>드디어 잡았습니다.</h3>
+          <h3>{post.title}</h3>
           <div className={styles.write_info_wrap}>
             <div className={styles.user_picture}>
               <Image
@@ -52,7 +97,7 @@ export default function Read() {
           </div>
           <div className={styles.image_wrap}>
             <Image
-              src="/images/sample/user_picture.png"
+              src={post.images[0]}
               alt="썸네일"
               width={200}
               height={150}
@@ -62,12 +107,12 @@ export default function Read() {
           </div>
           <div className={styles.location_wrap}>
             <div className={styles.location_min}>
-              <p>예당저수지 낚시회관 8번 좌대</p>
+              <p>{post.location}</p>
             </div>
           </div>
           <div className={styles.detail_wrap}>
             <div className={styles.detail_min}>
-              <p>잘 다녀왔습니다. 모두들 배스 많이 잡으세요 화이팅입니다!</p>
+              <p>{post.detail}</p>
             </div>
           </div>
           <div className={styles.fish_list_wrap}>

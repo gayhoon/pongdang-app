@@ -23,7 +23,7 @@ type FishingTrip =
     date: string, 
     view: number, 
     fish: number, 
-    thumb: string, 
+    images: string[], 
     reply: number
   };
 
@@ -38,7 +38,7 @@ export default function FishingTrip() {
 
   // ✅ 백엔드 API에서 게시글 목록 가져오기
   useEffect(() => {
-    fetch("https://localhost:8090/api/v1/fishingTrip")
+    fetch("http://localhost:8090/api/v1/fishingTrip")
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch((error) => console.error("데이터 불러오기 실패:", error));
@@ -57,32 +57,36 @@ export default function FishingTrip() {
           <ul className={styles.fishing_trip_list_wrap}>
             {posts.map((data)=>(
               <li key={data.id}>
-                <Link href={data.thumb}>
+                {/* <Link href={data.thumb}> */}
+                <Link href={`/community/fishingTrip/${data.id}`}>
                   <div className={styles.inside_wrap}>
                     <div className={styles.info_wrap}>
                       <div className={styles.top}>
+                        {/* <div className={`${styles.cate} ${styles.daily}`}>{data.cate}</div> */}
                         <div className={`${styles.cate} ${styles.daily}`}>{data.cate}</div>
                         <p>{data.title}</p>
                       </div>
                       <div className={styles.down}>
-                        <p className={styles.name}>{data.nickname}</p>
+                        <p className={styles.name}>타고난배서</p>
                         <p className={styles.time}>{data.date}</p>
-                        <p className={styles.view}>{data.view}</p>
-                        <p className={styles.fish}>{data.fish}</p>
+                        <p className={styles.view}>33</p>
+                        <p className={styles.fish}>배스</p>
                       </div>
                     </div>
-                    <div className={styles.thumb}>
-                      <Image
-                        src={data.thumb}
-                        alt="썸네일"
-                        width={200}
-                        height={150}
-                        style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
-                        priority
-                      />
-                    </div>
+                    {data.images && data.images.length > 0 &&(
+                      <div className={styles.thumb}>
+                        <Image
+                          src={data.images[0]}
+                          alt="썸네일"
+                          width={200}
+                          height={150}
+                          style={{ objectFit: "cover", width: '100%', height: '100%' }}
+                          priority
+                        />
+                      </div>
+                    )}
                     <div className={styles.reply}>
-                      <p className={styles.num}>{data.reply}</p>
+                      <p className={styles.num}>113</p>
                       <p className={styles.static}>댓글</p>
                     </div>
                   </div>

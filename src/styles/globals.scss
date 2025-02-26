@@ -4,6 +4,14 @@ html, body{
     touch-action: manipulation; /* 줌, 더블 탭 방지 */
     -ms-touch-action: manipulation; /* IE 지원 */
     overscroll-behavior: contain; /* 추가적인 화면 확대 방지 */
+
+}
+
+.root{
+    width: 100%;
+    max-width: 600px;
+    min-width: 320px;
+    margin: 0 auto;
 }
 
 input, textarea{
