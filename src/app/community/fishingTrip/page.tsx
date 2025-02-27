@@ -19,12 +19,11 @@ type FishingTrip =
     id: number, 
     cate: string, 
     title: string, 
-    nickname: string, 
+    location: string,
+    detail: string,
     date: string, 
-    view: number, 
-    fish: number, 
-    images: string[], 
-    reply: number
+    viewCount: number
+    images: string[]
   };
 
 export default function FishingTrip() {
@@ -69,7 +68,7 @@ export default function FishingTrip() {
                       <div className={styles.down}>
                         <p className={styles.name}>타고난배서</p>
                         <p className={styles.time}>{data.date}</p>
-                        <p className={styles.view}>33</p>
+                        <p className={styles.view}>{data.viewCount}</p>
                         <p className={styles.fish}>배스</p>
                       </div>
                     </div>

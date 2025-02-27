@@ -23,12 +23,17 @@ export default function Write() {
   const [cate, setCate] = useState("조행기");
   const [location, setLocation] = useState("");
   const [detail, setDetail] = useState("");
-  // const [fish, setFish] = useState(0);
+  const [fishes, setFishes] = useState<{ species: string; size: number; nickname: string; description: string }[]>([]);
   const [images, setImages] = useState<File[]>([]); // 업로드할 이미지 파일들
 
   const handleImageChange = useCallback((files: File[]) => {
     setImages(files);
   }, [])
+
+  // 물고기 추가 핸들러
+  const handleAddFish = (fish: { species: string; size: number; nickname: string; description: string }) => {
+    setFishes((prevFishes) => [...prevFishes, fish]);
+  }
 
 
   // ✅ 게시글 저장 요청
@@ -56,17 +61,13 @@ export default function Write() {
       cate,
       title,
       location,
-      detail
+      detail,
+      fishes
     })], { type: "application/json" })); // ✅ JSON을 Blob으로 변환 후 FormData에 추가
   
     images.forEach((image) => {
       formData.append("images", image);
     });
-
-    console.log("🟢 FormData 확인:");
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]); // ✅ images가 여러 개 추가되었는지 확인
-    }
   
     try {
       const response = await fetch("http://localhost:8090/api/v1/fishingTrip", {
@@ -129,7 +130,7 @@ export default function Write() {
             <MultiImageUpload onChange={handleImageChange}/>
           </li> 
           <li>
-            <FishList onOpen={() => setIsActionSheetOpen(true)} fishDetailOpen={()=>setIsActionSheetOpen(true)}/>
+            <FishList onOpen={() => (setIsActionSheetOpen(true))} fishDetailOpen={()=>setIsActionSheetOpen(true)} fishes={fishes}/>
           </li>
         </ul>
         <ActionSheet
@@ -137,6 +138,7 @@ export default function Write() {
           isOpen={isActionSheetOpen}
           onClose={() => setIsActionSheetOpen(false)}
           onCheckedItemsChange={handleCheckedItems}
+          onAddFish={handleAddFish}
         />
       </div>
     </div>

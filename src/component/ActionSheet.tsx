@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Image from "next/image";
@@ -12,9 +12,11 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCheckedItemsChange?: (checkedItems: { name: string; size: number }[]) => void;
+  onAddFish?: (fish: {species: string; size: number; nickname: string; description: string}) => void;
 }
 
-export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChange }: Props) {
+export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChange, onAddFish }: Props) {
+
   const fishTypeArry = [
     { name: "배스", imgSrc: "/images/sample/fish_bass.png" },
     { name: "붕어", imgSrc: "/images/sample/fish_boong.png" },
@@ -26,24 +28,86 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
     { name: "숭어", imgSrc: "/images/sample/fish_soong.png" }
   ];
 
-  const [checkedItems, setCheckedItems] = useState<{ name: string; size: number }[]>([
-    { name: fishTypeArry[0].name, size: 20 }
-  ]);
-  const [image, setImage] = useState<string | null>(null);
+  const [checkedItems, setCheckedItems] = useState<{ name: string; size: number; nickname: string; description: string }>({
+    name: fishTypeArry[0].name, // 기본값: 첫 번째 물고기 (배스)
+    size: 20,
+    nickname: "",
+    description: "",
+  });
+  
+  const [image, setImage] = useState<string>("");
+  const [detail, setDetail] = useState("");
+  const detailRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // ✅ 체크박스 변경 핸들러 (하나만 선택 가능)
-  const handleCheckboxChange = (fishName: string) => {
-    setCheckedItems([{ name: fishName, size: checkedItems[0]?.size ?? 20 }]);
-    onCheckedItemsChange?.([{ name: fishName, size: checkedItems[0]?.size ?? 20 }]);
+  // ✅ 초기 상태값 저장
+  const initialCheckedItems = {
+    name: fishTypeArry[0].name, // 첫 번째 물고기 기본값
+    size: 20,
+    nickname: "",
+    description: "",
   };
 
-  // ✅ 슬라이더 변경 핸들러
-  const handleSizeChange = (value: number | number[]) => {
-    if (!checkedItems[0]) return;
-    const newSize = Array.isArray(value) ? value[0] : value;
+  // ✅ 모든 입력 초기화 함수
+  const resetForm = () => {
+    setCheckedItems(initialCheckedItems);
+    setImage("");
+    setDetail("");
+  };
 
-    setCheckedItems([{ name: checkedItems[0].name, size: newSize }]);
-    onCheckedItemsChange?.([{ name: checkedItems[0].name, size: newSize }]);
+  // ✅ 물고기 추가
+  const handleAddFishItm = () => {
+    if (!checkedItems.name || !checkedItems.size) {
+      alert("물고기 종류와 크기를 입력해 주세요.");
+      return;
+    }
+
+    // ✅ 부모 컴포넌트로 전달
+    onAddFish?.({
+      species: checkedItems.name,
+      size: checkedItems.size,
+      nickname: checkedItems.nickname,
+      description: checkedItems.description,
+    });
+
+    // 입력 필드 초기화
+    setCheckedItems({
+      name: fishTypeArry[0].name,
+      size: 20,
+      nickname: "",
+      description: "",
+    });
+
+    resetForm();
+    onClose();
+  };
+
+  const handleClose = () =>{
+    resetForm();
+    onClose();
+  }
+
+
+  // ✅ 체크박스 변경 핸들러 (하나만 선택 가능)
+  // ✅ 물고기 종류 변경 시 즉시 반영
+  const handleCheckboxChange = (fishName: string) => {
+
+    setCheckedItems((prev) => ({
+      ...prev,
+      name: fishName,
+    }));
+
+    onCheckedItemsChange?.([{ name: fishName, size: checkedItems.size }]);
+  };
+  
+  // ✅ 슬라이더 값 변경 핸들러
+  const handleSizeChange = (value: number | number[]) => {
+    const newSize = Array.isArray(value) ? value[0] : value;
+    setCheckedItems((prev) => ({
+      ...prev,
+      size: newSize,
+    }));
+
+    onCheckedItemsChange?.([{ name: checkedItems.name, size: newSize }]);
   };
 
   // ✅ 파일 선택 핸들러
@@ -87,11 +151,11 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
                 </ul>
               </div>
             )}
-            {type === "check" && checkedItems[0] && (
+            {type === "check" && (
               <div className={styles.type_radio}>
                 <header>
-                  <button type="button" className="link_cancel" onClick={onClose}>취소</button>
-                  <button type="button" className="btn_save">등록</button>
+                  <button type="button" className="link_cancel" onClick={handleClose}>취소</button>
+                  <button type="button" className="btn_save" onClick={handleAddFishItm}>등록</button>
                 </header>
                 <section>
                   <h2>잡은 물고기</h2>
@@ -104,7 +168,7 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
                             name="fishSelection"
                             id={fish.name}
                             onChange={() => handleCheckboxChange(fish.name)}
-                            checked={checkedItems[0].name === fish.name}
+                            checked={checkedItems.name === fish.name}
                           />
                           <label htmlFor={fish.name}>{fish.name}</label>
                         </div>
@@ -115,7 +179,7 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
                   {/* ✅ 어종 크기 슬라이더 */}
                   <div className="fish_size_slider_wrap">
                     <Image 
-                      src={fishTypeArry.find(f => f.name === checkedItems[0].name)?.imgSrc || ""}
+                      src={fishTypeArry.find(f => f.name === checkedItems.name)?.imgSrc || ""}
                       alt="fish"
                       width={0}
                       height={200}
@@ -123,18 +187,18 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
                       style={{
                         objectFit: "contain",
                         height: "auto",
-                        width: `${(checkedItems[0].size / 70) * 100}%`,
+                        width: `${(checkedItems.size / 70) * 100}%`,
                         transition: "width 0.2s ease",
                       }}
                       priority
                     />
                     
-                    <h4>{checkedItems[0].name} 크기 : {checkedItems[0].size}cm</h4>
+                    <h4>{checkedItems.name} 크기 : {checkedItems.size}cm</h4>
                     <Slider
                       min={10}
                       max={70}
                       step={1}
-                      value={checkedItems[0].size}
+                      value={checkedItems.size}
                       onChange={handleSizeChange}
                       handleStyle={{
                         width: "34px",
@@ -164,12 +228,12 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
                   {/* 별명 입력 */}
                   <div className="nickname_wrap">
                     <div className="input_text_wrap">
-                      <input type="text" name="nickname" placeholder="별명 입력" />
+                      <input type="text" name="nickname" placeholder="별명 입력" value={checkedItems.nickname} onChange={(e)=>setCheckedItems((prev)=>({...prev, nickname: e.target.value}))}/>
                     </div>
                   </div>
 
                   {/* 설명 입력 */}
-                  <AutoResizeTextarea />
+                  <AutoResizeTextarea value={checkedItems.description} onChange={(value) => setCheckedItems((prev) => ({ ...prev, description: value }))} ref={detailRef} />
                 </section>
               </div>
             )}
@@ -183,7 +247,7 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
                 {/* ✅ 어종 크기 슬라이더 */}
                 <div className="fish_size_slider_wrap">
                     <Image 
-                      src={fishTypeArry.find(f => f.name === checkedItems[0].name)?.imgSrc || ""}
+                      src={fishTypeArry.find(f => f.name === checkedItems.name)?.imgSrc || ""}
                       alt="fish"
                       width={0}
                       height={200}
@@ -191,13 +255,13 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
                       style={{
                         objectFit: "contain",
                         height: "auto",
-                        width: `${(checkedItems[0].size / 70) * 100}%`,
+                        width: `${(checkedItems.size / 70) * 100}%`,
                         transition: "width 0.2s ease",
                       }}
                       priority
                     />
                     
-                    <h4>{checkedItems[0].name} 크기 : {checkedItems[0].size}cm</h4>
+                    <h4>{checkedItems.name} 크기 : {checkedItems.size}cm</h4>
                   </div>
 
                   {/* 사진 업로드 */}

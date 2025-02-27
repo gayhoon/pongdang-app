@@ -15,14 +15,11 @@ type FishingTrip =
     id: number, 
     cate: string, 
     title: string, 
-    nickname: string, 
-    date: string, 
-    view: number, 
-    fish: number, 
-    images: string[], 
-    reply: number,
     location: string,
-    detail: string
+    detail: string,
+    date: string, 
+    viewCount: number
+    images: string[]
   };
 
 export default function Read() {
@@ -89,21 +86,23 @@ export default function Read() {
                 <span className={styles.user_level}>완벽한 배서</span>
               </div>
               <div className={styles.write_info}>
-                <p className={styles.time}>24.09.03</p>
-                <p className={styles.view}>13</p>
+                <p className={styles.time}>{post.date}</p>
+                <p className={styles.view}>{post.viewCount}</p>
                 <p className={styles.like}>2</p>
               </div>
             </div>
           </div>
           <div className={styles.image_wrap}>
-            <Image
-              src={post.images[0]}
-              alt="썸네일"
-              width={200}
-              height={150}
-              style={{ objectFit: "contain", width: '100%', height: 'auto' }}
-              priority
-            />
+            {post.images &&post.images.length > 0 && (
+              <Image
+                src={post.images[0]}
+                alt="썸네일"
+                width={200}
+                height={150}
+                style={{ objectFit: "contain", width: '100%', height: 'auto' }}
+                priority
+              />
+            )}
           </div>
           <div className={styles.location_wrap}>
             <div className={styles.location_min}>
