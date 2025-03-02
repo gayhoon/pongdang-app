@@ -10,7 +10,7 @@ export default function FooterNav() {
     <footer className={styles.nav}>
       <ul>
         <li>
-          <Link href={''}>
+          <Link href={''} aria-disabled>
             <SvgIcFooterHome/>
             <p>홈</p>
           </Link>

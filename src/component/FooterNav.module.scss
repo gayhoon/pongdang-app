@@ -19,10 +19,11 @@ footer{
 
             > li{
                 flex-grow: 1;
+               
 
                 &.active{
                     > a{
-                        opacity: 0.4;
+                        opacity: 1;
                     }
                 }
 
@@ -33,6 +34,7 @@ footer{
                     flex-direction: column;
                     align-items: center;
                     gap: 5px;
+                    opacity: 0.4;
 
                     > p{
                         font-weight: 700;

@@ -4,11 +4,13 @@ import Image from 'next/image'
 interface Props {
   onOpen?: () => void;
   type?: string;
-  fishDetailOpen?: ()=>void;
-  fishes: { species: string; size: number; nickname: string; description: string }[];
+  fishDetailOpen?: (fish: { species: string; size: number; nickname: string; description: string }) => void;
+  fishes: { species: string; size: number; nickname: string; description: string; imageFile?: File; imageUrl?: string }[];
+  onUpdateFish?: (updatedFish: { species: string; size: number; nickname: string; description: string; imageFile?: File; imageUrl?: string }) => void;
 }
 
-export default function FishList({ onOpen, type, fishDetailOpen, fishes }: Props) {
+export default function FishList({ onOpen, type, fishDetailOpen, fishes, onUpdateFish }: Props) {
+
 
   // ✅ 물고기 이미지 매핑 객체
   const fishImageMap: Record<string, string> = {
@@ -30,7 +32,7 @@ export default function FishList({ onOpen, type, fishDetailOpen, fishes }: Props
       <ul>
         {fishes.map((fish, index)=>(
           <li key={index}>
-            <button type="button" className="fish" onClick={fishDetailOpen}>
+            <button type="button" className="fish" onClick={()=>fishDetailOpen?.(fish)}>
               <div className="thumb_wrap">
                 <span className="cate">{fish.species}</span>
                 <div className="thumb_min">

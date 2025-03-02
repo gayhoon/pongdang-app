@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation';
 import { useParams } from "next/navigation";
 
 import Image from 'next/image'
@@ -10,24 +11,15 @@ import styles from "./page.module.scss"
 import FishList from '@/component/FishList';
 import ActionSheet from '@/component/ActionSheet';
 
-type FishingTrip = 
-  { 
-    id: number, 
-    cate: string, 
-    title: string, 
-    location: string,
-    detail: string,
-    date: string, 
-    viewCount: number
-    images: string[]
-  };
-
 export default function Read() {
 
   const [loading, setLoading] = useState<boolean>(true);
   const { id } = useParams(); // ✅ URL에서 ID 가져오기
   const [post, setPost] = useState<FishingTrip | null>(null);
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
+  const [selectedFish, setSelectedFish] = useState<FishingTripFish | null>(null)
+  const router = useRouter();
+  
 
   // ✅ 특정 게시글 데이터 가져오기
   useEffect(() => {
@@ -44,6 +36,39 @@ export default function Read() {
       .catch((error) => console.error("게시글 불러오기 실패:", error))
       .finally(()=> setLoading(false)); // 요청 완료 후 로딩 상태 해제
   }, [id]);
+
+  // 게시글 삭제 요청
+  const handleDelete = async () => {    
+    if(!id){
+      alert("삭제할 게시글이 존재하지 않습니다.");
+      return
+    }
+
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+  
+    try {
+      const response = await fetch(`http://localhost:8090/api/v1/fishingTrip/${Number(id)}`, {
+        method: "DELETE",
+      });
+  
+      if (response.ok) {
+        alert("게시글이 삭제되었습니다.");
+        setPost(null); // ✅ 삭제된 게시글을 null로 설정
+        router.push('/community/fishingTrip'); // 메인 페이지로 이동
+      } else {
+        alert("실패")
+        throw new Error("삭제 실패");
+      }
+    } catch (error) {
+      console.error("게시글 삭제 실패:", error);
+      alert("게시글 삭제에 실패했습니다.");
+    }
+  };
+
+  // 게시글 수정 요청
+  const handleUpdate = () => {
+    router.push(`/community/fishingTrip/write?id=${id}`); // 메인 페이지로 이동
+  }
 
   // 로딩 중일 때
   if(loading){
@@ -63,7 +88,8 @@ export default function Read() {
         </div>
         <div className={styles.center}><h2>조행기 게시판</h2></div>        
         <div className={styles.right}>
-          {/* <button type="button" className="btn_save">등록</button> */}
+          <button type="button" onClick={handleDelete}>삭제</button>
+          <button type="button" onClick={handleUpdate}>수정</button>
         </div>
       </header>
       <div className={styles.contents_wrap}>
@@ -74,8 +100,8 @@ export default function Read() {
               <Image
                 src="/images/sample/user_picture.png"
                 alt="썸네일"
-                width={200}
-                height={150}
+                width={100}
+                height={100}
                 style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
                 priority
               />
@@ -97,33 +123,48 @@ export default function Read() {
               <Image
                 src={post.images[0]}
                 alt="썸네일"
-                width={200}
-                height={150}
+                width={1000}
+                height={1000}
                 style={{ objectFit: "contain", width: '100%', height: 'auto' }}
                 priority
               />
             )}
           </div>
-          <div className={styles.location_wrap}>
-            <div className={styles.location_min}>
-              <p>{post.location}</p>
+          
+            <div className={styles.location_wrap}>
+              <h2>장소</h2>
+              <div className={styles.location_min}>
+                <p>{post.location}</p>
+                  {!post.location && (
+                    <p className={styles.has_not}>장소가 등록되지 않았습니다</p>
+                  )}
+              </div>
             </div>
-          </div>
           <div className={styles.detail_wrap}>
             <div className={styles.detail_min}>
               <p>{post.detail}</p>
             </div>
           </div>
           <div className={styles.fish_list_wrap}>
-            <FishList type="read" fishDetailOpen={()=>setIsActionSheetOpen(true)}/>
+            <FishList type="read" fishDetailOpen={(fish)=>{
+                setSelectedFish(fish);
+                setIsActionSheetOpen(true);
+              }} fishes={post.fishes} />
+            {post.fishes &&post.fishes.length == 0 && (
+              <p className={styles.has_not}>물고기가 등록되지 않았습니다</p>
+            )}
           </div>
         </div>
       </div>
-      <ActionSheet 
-        type="readFish" 
-        isOpen={isActionSheetOpen}
-        onClose={() => setIsActionSheetOpen(false)}
-      />
+      {isActionSheetOpen && (
+        <ActionSheet 
+          type="readMode" 
+          isOpen={isActionSheetOpen}
+          onClose={() => setIsActionSheetOpen(false)}
+          fish={selectedFish}
+        />
+      )}
+      
     </div>
   );
 }

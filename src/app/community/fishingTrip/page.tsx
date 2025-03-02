@@ -14,18 +14,6 @@ import Link from 'next/link';
 
 import styles from "./page.module.scss";
 
-type FishingTrip = 
-  { 
-    id: number, 
-    cate: string, 
-    title: string, 
-    location: string,
-    detail: string,
-    date: string, 
-    viewCount: number
-    images: string[]
-  };
-
 export default function FishingTrip() {
 
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);

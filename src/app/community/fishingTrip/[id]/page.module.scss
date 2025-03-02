@@ -130,6 +130,11 @@
         > .location_wrap{
             padding: 0 20px;
 
+            > h2{
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
             > .location_min{
                 background-color: rgb(243, 243, 246);
                 border: 1px solid rgb(231, 232, 235);
@@ -141,6 +146,11 @@
 
                 > p{
                     font-size: 1.5rem;
+
+                    &.has_not{
+                        text-align: center;
+                        color: #6a6a6a;
+                    }
                 }
             }
         }
@@ -159,6 +169,11 @@
 
         > .fish_list_wrap{
             padding: 0 20px;
+
+            > .has_not{
+                font-size: 1.5rem;
+                color: #6a6a6a;
+            }
         }
     }
 }

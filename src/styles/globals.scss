@@ -251,11 +251,22 @@ button.btn_action_sheet_open{
     background: none;
     border: 0;
     font-weight: 500;
-    background-color: rgb(231, 232, 235);
     padding: 4px 12px;
     border-radius: 50px;
     color: #fff;
     background-color: #00d7f3;
+    word-break: keep-all;
+}
+
+.btn_modify{
+    font-size: 1.6rem;
+    background: none;
+    border: 0;
+    font-weight: 500;
+    padding: 4px 0px;
+    border-radius: 50px;
+    color: #383840;
+    background-color: transparent;
     word-break: keep-all;
 }
 
@@ -286,8 +297,16 @@ button.btn_action_sheet_open{
         > p{
             font-size: 1.6rem;
             font-weight: 500;
+
+            &.has_not{
+                color: #6a6a6a;
+            }
         }
     }
+}
+
+.default_p{
+    font-size: 1.5rem;
 }
 
 .detail_wrap{
@@ -299,5 +318,9 @@ button.btn_action_sheet_open{
     > p{
         font-size: 1.6rem;
         font-weight: 500;
+
+        &.has_not{
+            color: #6a6a6a;
+        }
     }
 }

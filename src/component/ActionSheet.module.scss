@@ -26,6 +26,8 @@
         background-color: #fff;
         border-radius: 20px 20px 0 0;
         animation: 0.3s ease 0s 1 normal none running action_sheet_show;
+        max-width: 600px;
+        margin: 0 auto;
         max-height: calc(100dvh - 40px);
 
         &.active{
@@ -43,6 +45,10 @@
                     > a{
                         padding: 18px 0;
                         display: block;
+
+                        &[aria-disabled="true"]{
+                            opacity: 0.5;
+                        }
     
                         > p{
                             font-size: 2rem;
@@ -89,7 +95,7 @@
                         display: grid;
                         grid-template-columns: 1fr 1fr;
                         gap: 10px 8px;
-                        overflow-y: scroll;
+                        overflow-y: hidden;
                         max-height: 355px;
     
                         > .radio_item{
