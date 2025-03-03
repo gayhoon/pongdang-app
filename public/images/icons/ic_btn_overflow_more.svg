@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="4" height="20" viewBox="0 0 4 20">
+  <g id="ic_btn_ovewflow_more" transform="translate(-91 513) rotate(-90)">
+    <circle id="타원_1" data-name="타원 1" cx="2" cy="2" r="2" transform="translate(493 91)" fill="#111220"/>
+    <circle id="타원_2" data-name="타원 2" cx="2" cy="2" r="2" transform="translate(501 91)" fill="#111220"/>
+    <circle id="타원_3" data-name="타원 3" cx="2" cy="2" r="2" transform="translate(509 91)" fill="#111220"/>
+  </g>
+</svg>

@@ -28,3 +28,10 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
+
+// 카카오 앱 키 정보
+// 네이티브 앱 키 : 59094e9f132fb6afd4a718f504925bdd
+// REST API 키 : 950a753d3092508b28b42ad997e4f987
+// JavaScript 키 : 6b3ba840b0bc6d164486ad9b84fa7d90
+// Admin 키 : 43f42730c28b4cceca19971a74432884
+// Redirect URI : http://localhost:3000/auth/kakao/callback

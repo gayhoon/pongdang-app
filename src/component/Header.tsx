@@ -1,6 +1,7 @@
 import SvgLogo from '@/images/logo.svg';
 import SvgMenuNameCommunity from '@/images/menuname_community.svg';
 import styles from './Header.module.scss'
+import KakaoLogin from './KakaoLogin';
 
 export default function Header() {
 
@@ -10,6 +11,7 @@ export default function Header() {
             <SvgLogo className={styles.logo} />
             <hr />
             <SvgMenuNameCommunity className={styles.menu_name} />
+            <KakaoLogin/>
         </div>
     </header>
   );

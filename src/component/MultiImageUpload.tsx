@@ -18,56 +18,33 @@ export default function MultiImageUpload({ onChange, existingImages, onDeleteIma
   const [imagePreviews, setImagePreviews] = useState<string[]>([]); // ✅ 미리보기용 Base64 데이터
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // ✅ 실제 업로드할 File 객체
 
-  // ✅ `selectedFiles`가 변경될 때만 부모 컴포넌트에 업데이트
+  // ✅ 기존 이미지 반영
   useEffect(() => {
-    onChange(selectedFiles);
-  }, [selectedFiles, onChange]);
+    setImagePreviews(existingImages ?? []);
+  }, [existingImages]);
 
-  useEffect(() => {
-    if (existingImages) {
-      setImagePreviews(existingImages); // ✅ 기존 이미지도 함께 저장
-    }
-  }, [existingImages]); // ✅ existingImages 변경 시 실행
-
-  // 파일 선택 & 카메라 촬영 핸들러
-  const handleFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  // ✅ 파일 선택 핸들러
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
 
-    const newFiles: File[] = [];
-    const newPreviews: string[] = [];
+    const newFiles = Array.from(files);
+    const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
 
-    Array.from(files).forEach((file) => {
-      if (selectedFiles.length + newFiles.length < MAX_IMAGES) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreviews((prevImages) => [...prevImages, reader.result as string]);
-        };
-        reader.readAsDataURL(file);
-        newFiles.push(file);
-      }
-    });
+    setImagePreviews((prev) => [...prev, ...newPreviews]);
+    setSelectedFiles((prev) => [...prev, ...newFiles]);
+    onChange(newFiles);
+  };
 
-    setSelectedFiles((prevFiles) => [...prevFiles, ...newFiles].slice(0, MAX_IMAGES));
+  // ✅ 이미지 삭제 핸들러
+  const handleDelete = (index: number) => {
+    const isExisting = (existingImages ?? []).includes(imagePreviews[index]);
 
-    if (selectedFiles.length + files.length > MAX_IMAGES) {
-      alert(`최대 ${MAX_IMAGES}장까지 등록 가능합니다.`);
-    }
-  }, [selectedFiles]);
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
 
-  // ✅ 기존 이미지 & 새로운 이미지 삭제 핸들러
-  const handleDeleteImage = useCallback((index: number) => {
-    const isExisting = existingImages?.includes(imagePreviews[index]);
-
-    if (isExisting) {
-      setImagePreviews((prev) => prev.filter((_, i) => i !== index)); // ✅ 미리보기에서 제거
-      if (onDeleteImage) onDeleteImage(index, true); // ✅ 부모에서 기존 이미지 삭제
-    } else {
-      setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index)); // ✅ 새 이미지에서 제거
-      setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-    }
-  }, [imagePreviews, existingImages, onDeleteImage]);
-  
+    onDeleteImage?.(index, isExisting);
+  };
 
   return (
     <div className={styles.pictures_upload_wrap}>
@@ -82,7 +59,7 @@ export default function MultiImageUpload({ onChange, existingImages, onDeleteIma
       {imagePreviews.map((src, index) => (
         <div key={index} className={styles.picture}>
           <Image src={src} alt={`Uploaded ${index}`} width={100} height={100} style={{ objectFit: "cover", borderRadius: "8px" }} />
-          <button className={styles.btn_picture_del} onClick={() => handleDeleteImage(index)}>
+          <button className={styles.btn_picture_del} onClick={() => handleDelete(index)}>
             <IcPictureDel />
           </button>
         </div>

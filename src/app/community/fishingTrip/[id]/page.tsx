@@ -4,12 +4,16 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { useParams } from "next/navigation";
 
-import Image from 'next/image'
-import Link from "next/link"
+import Image from 'next/image';
+import Link from "next/link";
 import IcHeaderArrow from "@/images/icons/ic_header_arrow.svg"
+import IcBtnOverflowModify from "@/images/icons/ic_btn_overflow_modify.svg"
+import IcBtnOverflowDelete from "@/images/icons/ic_btn_overflow_delete.svg"
 import styles from "./page.module.scss"
 import FishList from '@/component/FishList';
 import ActionSheet from '@/component/ActionSheet';
+import OverflowMenu from "@/component/OverflowMenu";
+
 
 export default function Read() {
 
@@ -88,8 +92,12 @@ export default function Read() {
         </div>
         <div className={styles.center}><h2>조행기 게시판</h2></div>        
         <div className={styles.right}>
-          <button type="button" onClick={handleDelete}>삭제</button>
-          <button type="button" onClick={handleUpdate}>수정</button>
+          <OverflowMenu>
+            <ul>
+              <li><button type="button" onClick={handleUpdate}>수정<IcBtnOverflowModify/></button></li>
+              <li><button type="button" onClick={handleDelete}>삭제<IcBtnOverflowDelete/></button></li>
+            </ul>
+          </OverflowMenu>
         </div>
       </header>
       <div className={styles.contents_wrap}>
