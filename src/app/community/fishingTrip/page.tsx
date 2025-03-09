@@ -37,7 +37,7 @@ export default function FishingTrip() {
 
   return (
     <div className={styles.sub_menupage_wrap}>
-      <Header />
+      <Header type="submain" />
       <NavCommunity />
       <div className={styles.container}>
         <div className={styles.fishing_trip_wrap}>

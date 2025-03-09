@@ -1,8 +1,9 @@
 header.submenupage_header{
-    padding: 0 0 0 1.5rem;
+    padding: 0 2rem;
     height: 5rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     // border-bottom: 1px solid #E9E9E9;
     position: fixed;
     top: 0;
@@ -33,6 +34,17 @@ header.submenupage_header{
 
         > .menu_name{
             height: 18px;
+        }
+    }
+
+    > .header_btn_wrap{
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        
+        > button{
+            border: 0;
+            background-color: transparent;
         }
     }
 }

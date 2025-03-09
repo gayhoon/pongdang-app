@@ -14,7 +14,6 @@ import FishList from '@/component/FishList';
 import ActionSheet from '@/component/ActionSheet';
 import OverflowMenu from "@/component/OverflowMenu";
 
-
 export default function Read() {
 
   const [loading, setLoading] = useState<boolean>(true);
