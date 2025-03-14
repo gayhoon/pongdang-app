@@ -1,5 +1,7 @@
 import { useRouter } from 'next/navigation';
 
+import {useAuth} from "@/context/AuthContext"
+
 import SvgLogo from '@/images/logo.svg';
 import SvgMenuNameCommunity from '@/images/menuname_community.svg';
 import styles from './Header.module.scss'
@@ -12,10 +14,11 @@ interface Props{
 
 export default function Header({type, children}:Props) {
 
+  const { user } = useAuth();
   const router = useRouter();
 
   const handleLoginCheckRouter = () =>{
-    if(localStorage.getItem("kakao_access_token")){
+    if(user){
       router.push("/account/mypage")
     }else{
       router.push("/account/login")

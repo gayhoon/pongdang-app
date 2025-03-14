@@ -115,7 +115,7 @@ export default function Read() {
             </div>
             <div className={styles.write_info_min}>
               <div className={styles.user_info}>
-                <span className={styles.user_name}>회원명</span>
+                <span className={styles.user_name}>{post.authorNickname}</span>
                 <span className={styles.user_level}>완벽한 배서</span>
               </div>
               <div className={styles.write_info}>

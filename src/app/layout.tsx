@@ -3,6 +3,7 @@ import "@/styles/globals.scss";
 import "@/styles/font.scss";
 import type { Metadata } from "next";
 import PreventZoom from "@/component/PreventZoom"
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,7 +28,9 @@ export default function RootLayout({
       <body>
         <div className="root">
           <PreventZoom />
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </div>
       </body>
     </html>

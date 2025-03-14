@@ -12,6 +12,11 @@ import FishList from "@/component/FishList";
 
 export default function Write() {
 
+  // 게시글 상세 화면에서 전달받은 useParam("id")을 useSearchParams에서 받아 사용하여 게시글 조회
+  const searchParams = useSearchParams();
+  const idParam = searchParams.get("id");
+  const id = idParam ? Number(idParam) : null; // ✅ 숫자로 변환
+
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
   const [checkedFishCateGroup, setCheckedFishCateGroup] = useState<{ species: string; size: number }[]>([]);
   const [selectedFish, setSelectedFish] = useState<FishingTripFish | null>(null)
@@ -20,11 +25,8 @@ export default function Write() {
   const locationRef = useRef<HTMLInputElement>(null);
   const detailRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // 게시글 상세 화면에서 전달받은 useParam("id")을 useSearchParams에서 받아 사용하여 게시글 조회
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-
   // write
+  const [jwtToken, setJwtToken] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [cate, setCate] = useState("조행기");
   const [location, setLocation] = useState("");
@@ -36,6 +38,10 @@ export default function Write() {
   const [newImages, setNewImages] = useState<File[]>([]);
   const [deletedImages, setDeletedImages] = useState<string[]>([]); // 백엔드에서 기존 이미지를 유지할지 삭제할지 알 수 있도록 deletedImages를 추가하여 전송
 
+  // ✅ JWT 토큰을 안전하게 가져오기
+  useEffect(() => {
+    setJwtToken(localStorage.getItem("jwt"));
+  }, []);
 
   // 상세화면에서 useParam으로 받아온 id가 있다면 로드 시 한 번만 실행
   useEffect(() => {
@@ -54,6 +60,10 @@ export default function Write() {
       })
       .catch((error) => console.error("게시글 불러오기 실패:", error));
   }, [id]);
+
+  useEffect(() => {
+    setJwtToken(localStorage.getItem("jwt"));
+  }, []);
 
   // 물고기 추가 핸들러
   const handleAddFish = (fish: FishingTripFish) => {
@@ -143,6 +153,9 @@ export default function Write() {
     try {
       const response = await fetch("http://localhost:8090/api/v1/fishingTrip", {
         method: "POST",
+        headers: {
+          "Authorization": `Bearer ${jwtToken}`, // ✅ JWT 포함
+      },
         body: formData,
       });
 

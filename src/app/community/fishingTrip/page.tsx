@@ -54,7 +54,7 @@ export default function FishingTrip() {
                         <p>{data.title}</p>
                       </div>
                       <div className={styles.down}>
-                        <p className={styles.name}>타고난배서</p>
+                        <p className={styles.name}>{data.authorNickname}</p>
                         <p className={styles.time}>{data.date}</p>
                         <p className={styles.view}>{data.viewCount}</p>
                         <p className={styles.fish}>배스</p>

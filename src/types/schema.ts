@@ -17,6 +17,7 @@ type FishingTrip =
     title: string, 
     location: string,
     detail: string,
+    authorNickname: string,
     date: string, 
     viewCount: number,
     images: string[],

@@ -1,55 +1,33 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { useAuth } from "@/context/AuthContext"
 
 import styles from "./page.module.scss";
 
+import Image from 'next/image'
 import Link from "next/link";
 import IcHeaderArrow from "@/images/icons/ic_header_arrow.svg"
 import IcHeaderHome from "@/images/icons/ic_header_home.svg"
-import { useEffect, useState } from 'react';
+import IcCamera from "@/images/icons/ic_camera.svg"
 
 
 const Mypage = () => {
-  const [nickname, setNickname] = useState(null);
+  const { user, logout } = useAuth();
 
   const router = useRouter();
 
   // 로그아웃 시도
   const handleLogout = () => {
     if(confirm("로그아웃 하시겠습니까?")){
-      localStorage.removeItem("kakao_access_token"); // 로컬 스토리지에서 토큰 삭제
-      // 새로고침
+      logout();
       router.push("/community/fishingTrip")
     }
   }
 
-  // 사용자정보 가져오기 시도
-  const fetchUserInfo = async () => {
-    const token = localStorage.getItem("kakao_access_token");
-
-    // 사용자 토큰 정보 없는 경우(로그인정보 없을 시)
-    if(!token){
-      return
-    }
-
-    try{
-      const response = await fetch("https://kapi.kakao.com/v2/user/me",{
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        }
-      })
-      const userData = await response.json();
-      setNickname(userData.properties.nickname);
-    } catch(error){
-      console.log("사용자 정보 가져오기 실패", error)
-    }
-  }
-
   useEffect(()=>{
-    fetchUserInfo();
   }, [])
 
   return (
@@ -64,7 +42,31 @@ const Mypage = () => {
         </div>
       </header>
       <div className={styles.mypage_min}>
-        <p>{nickname}님 안녕하세요</p>
+        <section>
+          <h2>내 정보</h2>
+          <div className={styles.myinfo_wrap}>
+            <div className={styles.thumb_wrap}>
+              <div className={styles.thumb_min}>
+                <Image
+                  src="/images/img_profile_picture.png"
+                  alt="프로필사진"
+                  width={200}
+                  height={150}
+                  style={{ objectFit: "cover", width: '100%', height: '100%' }}
+                  priority
+                />
+              </div>
+              <button type="button"><IcCamera /></button>
+            </div>
+            <div className={styles.nickname_wrap}>
+              <div className={styles.nickname_min}>
+                <p>{user?.nickname}</p>
+                <button type="button">편집</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <p>{user?.nickname}님 안녕하세요</p>
         <button type="button" onClick={handleLogout}>로그아웃</button>
         <hr />
         <p>본 페이지 컨텐츠는 아래와 같이 구성되어야 함</p>
