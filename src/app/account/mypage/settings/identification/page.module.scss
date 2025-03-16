@@ -1,0 +1,70 @@
+.identification_wrap{
+
+    > header{
+
+        &.layout_read_wrap_header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 60px;
+            position: relative;
+
+            > .center{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1;
+
+                > h2{
+                    font-size: 1.7rem;
+                }
+            }
+
+            > .left{
+                z-index: 2;
+            }
+
+            > .right{
+                display: flex;
+                gap: 20px;
+                z-index: 2;
+
+                > button{
+                    border: 0;
+                    padding: 0;
+                    margin: 0;
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    > .identification_min{
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        > ul{
+            display: flex;
+            flex-direction: column;
+            gap: 21px;
+
+            > li{
+                > button{
+                    border: 0;
+                    padding: 0;
+                    font-size: 1.7rem;
+                    background-color: transparent;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}

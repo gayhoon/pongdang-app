@@ -30,9 +30,6 @@ const Login = () => {
             <button type="button" onClick={()=>router.push("/community/fishingTrip")}><IcHeaderHome /></button>
         </header>
         <div className={styles.login_min}>
-            <div className="login_test">
-                <button type="button">신규가입 테스트</button>
-            </div>
             <div className={styles.introduce}>
                 <h2>낚시인 필수 커뮤니티 앱</h2>
                 <h1><Image

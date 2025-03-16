@@ -87,7 +87,7 @@ export default function Read() {
     <div className={styles.layout_read_wrap}>
       <header className={styles.layout_read_wrap_header}>
         <div className={styles.left}>
-          <Link href="/community/fishingTrip" className="link_header_before"><IcHeaderArrow />뒤로가기</Link>
+          <Link href="" onClick={()=>router.back()} className="link_header_before"><IcHeaderArrow />뒤로가기</Link>
         </div>
         <div className={styles.center}><h2>조행기 게시판</h2></div>        
         <div className={styles.right}>
@@ -121,7 +121,7 @@ export default function Read() {
               <div className={styles.write_info}>
                 <p className={styles.time}>{post.date}</p>
                 <p className={styles.view}>{post.viewCount}</p>
-                <p className={styles.like}>2</p>
+                {/* <p className={styles.like}>2</p> */}
               </div>
             </div>
           </div>

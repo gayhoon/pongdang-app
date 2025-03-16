@@ -3,12 +3,13 @@
     background-size: cover;
     background-position: center;
     display: block;
+    position: relative;
 
     .intro_logo{
         position: absolute;
-        left: calc(50% - 30vw);
+        left: calc(50% - 30%);
         bottom: 13vh;
-        width: 60vw;
+        width: 60%;
         filter: drop-shadow(0px 5px 15px rgba(25, 69, 113, 0.9));
     }
 }

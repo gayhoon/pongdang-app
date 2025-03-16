@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useCallback, useRef, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import Link from "next/link"
 
 import styles from "./page.module.scss"
@@ -11,6 +12,8 @@ import MultiImageUpload from "@/component/MultiImageUpload";
 import FishList from "@/component/FishList";
 
 export default function Write() {
+  const { jwtToken } = useAuth(); // useAuth에서 jwtToken 가져오기
+  const router = useRouter();
 
   // 게시글 상세 화면에서 전달받은 useParam("id")을 useSearchParams에서 받아 사용하여 게시글 조회
   const searchParams = useSearchParams();
@@ -26,7 +29,6 @@ export default function Write() {
   const detailRef = useRef<HTMLTextAreaElement | null>(null);
 
   // write
-  const [jwtToken, setJwtToken] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [cate, setCate] = useState("조행기");
   const [location, setLocation] = useState("");
@@ -38,11 +40,6 @@ export default function Write() {
   const [newImages, setNewImages] = useState<File[]>([]);
   const [deletedImages, setDeletedImages] = useState<string[]>([]); // 백엔드에서 기존 이미지를 유지할지 삭제할지 알 수 있도록 deletedImages를 추가하여 전송
 
-  // ✅ JWT 토큰을 안전하게 가져오기
-  useEffect(() => {
-    setJwtToken(localStorage.getItem("jwt"));
-  }, []);
-
   // 상세화면에서 useParam으로 받아온 id가 있다면 로드 시 한 번만 실행
   useEffect(() => {
     if (!id) return; // id가 없다면 실행 안함
@@ -50,7 +47,6 @@ export default function Write() {
     fetch(`http://localhost:8090/api/v1/fishingTrip/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("불러온 게시글 데이터:", data);
         setTitle(data.title);
         setCate(data.cate);
         setLocation(data.location);
@@ -60,10 +56,6 @@ export default function Write() {
       })
       .catch((error) => console.error("게시글 불러오기 실패:", error));
   }, [id]);
-
-  useEffect(() => {
-    setJwtToken(localStorage.getItem("jwt"));
-  }, []);
 
   // 물고기 추가 핸들러
   const handleAddFish = (fish: FishingTripFish) => {
@@ -138,7 +130,7 @@ export default function Write() {
             location,
             detail,
             fishes: fishes.map(({ imageFile, ...rest }) => rest),
-            existingImages: existingImages.filter((url) => !deletedImages.includes(url)), // ✅ 삭제된 이미지는 제외
+            existingImages: existingImages.filter((url) => !deletedImages.includes(url)), // 삭제된 이미지는 제외
             deletedImages,
           }),
         ],
@@ -153,12 +145,14 @@ export default function Write() {
     try {
       const response = await fetch("http://localhost:8090/api/v1/fishingTrip", {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${jwtToken}`, // ✅ JWT 포함
-      },
+        // headers: {
+        //   "Authorization": `Bearer ${jwtToken}`,  // ✅ Authorization 헤더 추가 (JWT 기반 인증)
+        //   "Content-Type": "application/json",
+        // },
+        credentials: "include",
         body: formData,
       });
-
+      console.log("📌 보낼 Authorization 헤더: ", `Bearer ${jwtToken}`);
       const data = await response.json(); // 서버에서 반환된 데이터 (ID 포함)
 
       if (response.ok) {
@@ -177,7 +171,7 @@ export default function Write() {
     <div className={styles.layout_write_wrap}>
       <header className={styles.layout_write_wrap_header}>
         <div className={styles.left}>
-          <Link href="/community/fishingTrip" className="link_cancel">취소</Link>
+          <Link href="" onClick={()=>router.back()} className="link_cancel">취소</Link>
         </div>
         <div className={styles.right}>
           {/* <button type="button">임시저장</button> */}
@@ -217,7 +211,6 @@ export default function Write() {
                 setIsActionSheetOpen(true);
               }}
               fishDetailOpen={(fish) => {
-                console.log("🐟 선택된 물고기:", fish);
                 setSelectedFish(fish); // 기존 물고기 선택 시 해당 데이터 유지
                 setIsActionSheetOpen(true);
               }}

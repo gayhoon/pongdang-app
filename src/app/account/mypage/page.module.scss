@@ -48,8 +48,11 @@
     }
 
     > .mypage_min{
-        padding: 25px 20px;
         background-color: #F8F8F8;
+        padding: 24px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
 
         > section{
             background-color: #fff;
@@ -59,6 +62,42 @@
             > h2{
                 font-size: 1.7rem;
                 margin-bottom: 1.6rem;
+            }
+
+            > .notice{
+                font-size: 1.3rem;
+            }
+
+            > ul{
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+
+                > li{
+                    > button{
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        width: 100%;
+                        background-color: transparent;
+                        border: 0;
+                        padding: 0;
+                        gap: 12px;
+
+                        > .icon_min{
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 28px;
+                            height: 28px;
+                        }
+
+                        > p{
+                            font-size: 1.5rem;
+                            line-height: 23px;;
+                        }
+                    }
+                }
             }
 
             > .myinfo_wrap{

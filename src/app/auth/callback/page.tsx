@@ -2,17 +2,18 @@
 
 import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const KakaoCallback = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const code = searchParams.get("code"); // 카카오에서 받은 인증 코드
+  const { setJwtToken, fetchUser } = useAuth(); // ✅ useAuth()에서 setJwtToken 가져오기
 
   useEffect(() => {
     if (code) {
       // fetchAccessToken(code);
       sendCodeToBackend(code);
-      console.log(code);
     }
   }, [code]);
 
@@ -24,16 +25,15 @@ const KakaoCallback = () => {
         credentials: "include", // HTTP-only 쿠키 사용
         body: JSON.stringify({ code }),
       });
-      if(response.ok){
-        
-        const userData = await response.json();
-        console.log("사용자 정보:", userData);
 
-        // JWT를 localStorage에 저장
+      if(response.ok){
+        const userData = await response.json();
+
         if (userData.jwt) {
-          localStorage.setItem("jwt", userData.jwt);
-          console.log("JWT 저장 완료:", userData.jwt);
+          setJwtToken(userData.jwt); // ✅ JWT를 상태에 저장
         }
+
+        await fetchUser(); // 로그인 성공 후 사용자 정보 즉시 갱신
 
         router.push("/community/fishingTrip"); // 로그인 성공 후 페이지 이동
 

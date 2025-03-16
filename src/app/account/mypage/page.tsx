@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { useAuth } from "@/context/AuthContext"
+import { useAuth } from "@/context/AuthContext";
 
 import styles from "./page.module.scss";
 
@@ -12,20 +12,12 @@ import Link from "next/link";
 import IcHeaderArrow from "@/images/icons/ic_header_arrow.svg"
 import IcHeaderHome from "@/images/icons/ic_header_home.svg"
 import IcCamera from "@/images/icons/ic_camera.svg"
-
+import IcSetting from "@/images/icons/ic_setting.svg"
 
 const Mypage = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   const router = useRouter();
-
-  // 로그아웃 시도
-  const handleLogout = () => {
-    if(confirm("로그아웃 하시겠습니까?")){
-      logout();
-      router.push("/community/fishingTrip")
-    }
-  }
 
   useEffect(()=>{
   }, [])
@@ -34,7 +26,7 @@ const Mypage = () => {
     <div className={styles.mypage_wrap}>
       <header className={styles.layout_read_wrap_header}>
         <div className={styles.left}>
-          <Link href="/community/fishingTrip" className="link_header_before"><IcHeaderArrow />뒤로가기</Link>
+          <Link href="" onClick={()=>router.back()} className="link_header_before"><IcHeaderArrow />뒤로가기</Link>
         </div>
         <div className={styles.center}><h2>마이페이지</h2></div>
         <div className={styles.right}>
@@ -66,20 +58,25 @@ const Mypage = () => {
             </div>
           </div>
         </section>
-        <p>{user?.nickname}님 안녕하세요</p>
-        <button type="button" onClick={handleLogout}>로그아웃</button>
-        <hr />
-        <p>본 페이지 컨텐츠는 아래와 같이 구성되어야 함</p>
-        <ul>
-          <li>닉네임(수정가능)</li>
-          <li>프로필사진(수정가능)</li>
-          <li>내가 쓴 글</li>
-          <li>댓글 단 글</li>
-          <li>이용약관</li>
-          <li>개인정보처리방침</li>
-          <li>로그아웃</li>
-          <li>회원탈퇴</li>
-        </ul>
+        <section>
+          <h2>내가 쓴 글</h2>
+          <p className={styles.notice}>현재 준비중입니다. 빠른 시일내에 서비스 제공하도록 하겠습니다!</p>
+        </section>
+        <section>
+          <h2>내가 쓴 댓글</h2>
+          <p className={styles.notice}>현재 준비중입니다. 빠른 시일내에 서비스 제공하도록 하겠습니다!</p>
+        </section>
+        <section>
+          <h2>관리</h2>
+          <ul>
+            <li>
+              <button type="button" onClick={()=>router.push("/account/mypage/settings")}>
+                <div className={styles.icon_min}><IcSetting /></div>
+                <p>설정</p>
+              </button>
+            </li>
+          </ul>
+        </section>
       </div>
     </div>
   );

@@ -1,0 +1,115 @@
+.settings_wrap{
+
+    > header{
+        border-bottom: 1px solid #E7E8EB;
+
+        &.layout_read_wrap_header{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 60px;
+            position: relative;
+
+            > .center{
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1;
+
+                > h2{
+                    font-size: 1.7rem;
+                }
+            }
+
+            > .left{
+                z-index: 2;
+            }
+
+            > .right{
+                display: flex;
+                gap: 20px;
+                z-index: 2;
+
+                > button{
+                    border: 0;
+                    padding: 0;
+                    margin: 0;
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    > .settings_min{
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        > section{
+            background-color: #fff;
+            border-radius: 8px;
+
+            > h2{
+                font-size: 1.5rem;
+                margin-bottom: 1.6rem;
+                color: #a6a9b8;
+                font-weight: 500;
+            }
+
+            > ul{
+                display: flex;
+                flex-direction: column;
+                gap: 21px;
+
+                > li{
+
+                    > a{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+
+                        > span{
+                            font-size: 1.5rem;
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+
+            > hr{
+                width: 100%;
+                height: 1px;
+                background-color: #F3F3F6;
+                border: 0;
+                padding: 0;
+                margin-top: 25px;
+            }
+
+            > .customer_info{
+                background-color: #f8f8f8;
+                padding: 20px;
+                border-radius: 10px;
+                
+                > ul{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+
+                    > li{
+                        > span{
+                            font-size: 1.5rem;
+                            color: #595c6a;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

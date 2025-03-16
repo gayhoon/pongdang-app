@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 import FooterNav from "@/component/FooterNav";
 import Header from "@/component/Header";
@@ -16,12 +17,21 @@ import styles from "./page.module.scss";
 
 export default function FishingTrip() {
 
+  const { user } = useAuth();
+  const router = useRouter();
+  
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
   
   const [posts, setPosts] = useState<FishingTrip[]>([]);
 
   // 하위 특정 경로내 페이지는 본 레이아웃 적용 금지
   const pathname = usePathname();
+
+  // 날짜형식 yyyy-mm-dd -> yy.mm.dd 변경
+  const formatDate = (dateString: string): string => {
+    const [year, month, day] = dateString.split("-");
+    return `${year.slice(2)}.${month}.${day}`;
+  };
 
   // ✅ 백엔드 API에서 게시글 목록 가져오기
   useEffect(() => {
@@ -30,6 +40,15 @@ export default function FishingTrip() {
       .then((data) => setPosts(data))
       .catch((error) => console.error("데이터 불러오기 실패:", error));
   }, []);
+  
+  // 로그인된 상태라면 actionSheet를 보여주고, 아니라면 로그인화면으로 이동
+  const checkLogin = () => {
+    if(user){
+      setIsActionSheetOpen(true);
+    }else{
+      router.push("/account/login")
+    }
+  }
 
   useEffect(() => {
     setIsActionSheetOpen(false);
@@ -55,9 +74,9 @@ export default function FishingTrip() {
                       </div>
                       <div className={styles.down}>
                         <p className={styles.name}>{data.authorNickname}</p>
-                        <p className={styles.time}>{data.date}</p>
+                        <p className={styles.time}>{formatDate(data.date)}</p>
                         <p className={styles.view}>{data.viewCount}</p>
-                        <p className={styles.fish}>배스</p>
+                        <p className={styles.fish}>{data.fishes.length}</p>
                       </div>
                     </div>
                     {data.images && data.images.length > 0 &&(
@@ -82,7 +101,7 @@ export default function FishingTrip() {
             ))}
           </ul>
         </div>
-        <button type="button" className={styles.btn_write} onClick={()=>{setIsActionSheetOpen(true)}}><IcListWrite/>글쓰기</button>
+        <button type="button" className={styles.btn_write} onClick={()=>{checkLogin()}}><IcListWrite/>글쓰기</button>
       </div>
       <FooterNav />
       <ActionSheet type="list" isOpen={isActionSheetOpen} onClose={()=> setIsActionSheetOpen(false)} />      

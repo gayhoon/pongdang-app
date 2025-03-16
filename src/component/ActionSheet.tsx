@@ -77,7 +77,6 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
       return;
     }
   
-    console.log("🔄 기존 물고기 업데이트 실행:", checkedItems);
     onUpdateFish(checkedItems); // ✅ 수정된 데이터 업데이트
   
     resetFish();
@@ -95,12 +94,10 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
   
     if (isEditing) {
       // ✅ 기존 물고기 수정
-      console.log("🔄 기존 물고기 수정:", checkedItems);
       handleUpdateFishItm();
       setIsEditing(false); // ✅ 수정 모드 종료
     } else {
       // ✅ 새로운 물고기 추가
-      console.log("🐟 새로운 물고기 추가:", checkedItems);
       onAddFish?.(checkedItems);
     }
   
@@ -162,7 +159,6 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
   // 액션시트 활성화 중 스크롤 방지
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
-    // console.log(viewMode)
     return () => {
       document.body.style.overflow = "";
     };
