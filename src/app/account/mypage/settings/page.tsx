@@ -1,6 +1,5 @@
 "use client"
 
-import { useAuth } from "@/context/AuthContext";
 import { useRouter } from 'next/navigation';
 
 import styles from "./page.module.scss";
@@ -13,16 +12,6 @@ import IcBtnLinkPage from "@/images/icons/ic_btn_link_page.svg"
 const Settings = () => {
 
   const router = useRouter();
-
-  const { logout } = useAuth();
-
-  // 로그아웃 시도
-  const handleLogout = () => {
-    if(confirm("로그아웃 하시겠습니까?")){
-      logout();
-      router.push("/community/fishingTrip")
-    }
-  }
 
   return (
     <div className={styles.settings_wrap}>

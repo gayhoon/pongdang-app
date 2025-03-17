@@ -63,12 +63,10 @@ export default function FishingTrip() {
           <ul className={styles.fishing_trip_list_wrap}>
             {posts.map((data)=>(
               <li key={data.id}>
-                {/* <Link href={data.thumb}> */}
                 <Link href={`/community/fishingTrip/${data.id}`}>
                   <div className={styles.inside_wrap}>
                     <div className={styles.info_wrap}>
                       <div className={styles.top}>
-                        {/* <div className={`${styles.cate} ${styles.daily}`}>{data.cate}</div> */}
                         <div className={`${styles.cate} ${styles.daily}`}>{data.cate}</div>
                         <p>{data.title}</p>
                       </div>

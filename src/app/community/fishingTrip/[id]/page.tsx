@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { useParams } from "next/navigation";
+import {useAuth} from "@/context/AuthContext"
 
 import Image from 'next/image';
 import Link from "next/link";
@@ -16,12 +17,14 @@ import OverflowMenu from "@/component/OverflowMenu";
 
 export default function Read() {
 
+  const { user } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
   const { id } = useParams(); // ✅ URL에서 ID 가져오기
   const [post, setPost] = useState<FishingTrip | null>(null);
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
   const [selectedFish, setSelectedFish] = useState<FishingTripFish | null>(null)
   const router = useRouter();
+  const [isAuthor, setIsAuthor] = useState(false);
   
 
   // ✅ 특정 게시글 데이터 가져오기
@@ -39,6 +42,17 @@ export default function Read() {
       .catch((error) => console.error("게시글 불러오기 실패:", error))
       .finally(()=> setLoading(false)); // 요청 완료 후 로딩 상태 해제
   }, [id]);
+
+  // 본인 글인 확인 후 isAuthor = true
+  useEffect(()=>{
+    if (!user || !post) return; // ✅ user와 post가 존재하는 경우에만 실행
+
+    const isUserAuthor = user.nickname === post.authorNickname;
+
+    if (isAuthor !== isUserAuthor) { // ✅ 상태가 변경될 때만 setState 실행
+      setIsAuthor(isUserAuthor);
+    }
+  },[user?.nickname, post?.authorNickname]) 
 
   // 게시글 삭제 요청
   const handleDelete = async () => {    
@@ -87,17 +101,30 @@ export default function Read() {
     <div className={styles.layout_read_wrap}>
       <header className={styles.layout_read_wrap_header}>
         <div className={styles.left}>
-          <Link href="" onClick={()=>router.back()} className="link_header_before"><IcHeaderArrow />뒤로가기</Link>
+          <Link href="" onClick={(e)=>{
+            // 만약 본 페이지로 오기 전 페이지 경로가 /write인 경우
+            if(document.referrer.includes("/write")){
+              // 글 목록으로 이동
+              e.preventDefault();
+              router.push("/community/fishingTrip")
+            }else{
+              // 이전 페이지로 이동
+              e.preventDefault();
+              router.back();
+            }
+          }} className="link_header_before"><IcHeaderArrow />뒤로가기</Link>
         </div>
-        <div className={styles.center}><h2>조행기 게시판</h2></div>        
-        <div className={styles.right}>
-          <OverflowMenu>
-            <ul>
-              <li><button type="button" onClick={handleUpdate}>수정<IcBtnOverflowModify/></button></li>
-              <li><button type="button" onClick={handleDelete}>삭제<IcBtnOverflowDelete/></button></li>
-            </ul>
-          </OverflowMenu>
-        </div>
+        <div className={styles.center}><h2>조행기 게시판</h2></div>
+        {isAuthor && (
+          <div className={styles.right}>
+            <OverflowMenu>
+              <ul>
+                <li><button type="button" onClick={handleUpdate}>수정<IcBtnOverflowModify/></button></li>
+                <li><button type="button" onClick={handleDelete}>삭제<IcBtnOverflowDelete/></button></li>
+              </ul>
+            </OverflowMenu>
+          </div>
+        )}
       </header>
       <div className={styles.contents_wrap}>
         <div className={styles.contents_min}>
@@ -105,7 +132,7 @@ export default function Read() {
           <div className={styles.write_info_wrap}>
             <div className={styles.user_picture}>
               <Image
-                src="/images/sample/user_picture.png"
+                src={`http://localhost:8090${post.authorProfileImage}`}
                 alt="썸네일"
                 width={100}
                 height={100}

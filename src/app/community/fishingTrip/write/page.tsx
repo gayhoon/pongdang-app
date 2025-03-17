@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
 import Link from "next/link"
 
 import styles from "./page.module.scss"
@@ -12,7 +11,6 @@ import MultiImageUpload from "@/component/MultiImageUpload";
 import FishList from "@/component/FishList";
 
 export default function Write() {
-  const { jwtToken } = useAuth(); // useAuth에서 jwtToken 가져오기
   const router = useRouter();
 
   // 게시글 상세 화면에서 전달받은 useParam("id")을 useSearchParams에서 받아 사용하여 게시글 조회
@@ -129,7 +127,10 @@ export default function Write() {
             title,
             location,
             detail,
-            fishes: fishes.map(({ imageFile, ...rest }) => rest),
+            fishes: fishes.map(({ 
+              // 아래 주석은 eslint에서 해당 1줄만 규칙을 예외처리 하여 오류처럼 보이는 것을 hide 처리해준다.
+              imageFile, ...rest // eslint-disable-line @typescript-eslint/no-unused-vars
+            }) => rest),
             existingImages: existingImages.filter((url) => !deletedImages.includes(url)), // 삭제된 이미지는 제외
             deletedImages,
           }),
@@ -138,6 +139,14 @@ export default function Write() {
       )
     );
 
+    // 각 물고기의 `imageFile`을 FormData에 추가
+    fishes.forEach((fish, index) => {
+      if (fish.imageFile) {
+        formData.append(`fishImages_${index}`, fish.imageFile); // ✅ 키 값 변경
+      }
+    });
+
+    // 새로운 이미지 파일도 추가
     newImages.forEach((image) => {
       formData.append("images", image);
     });
@@ -145,14 +154,9 @@ export default function Write() {
     try {
       const response = await fetch("http://localhost:8090/api/v1/fishingTrip", {
         method: "POST",
-        // headers: {
-        //   "Authorization": `Bearer ${jwtToken}`,  // ✅ Authorization 헤더 추가 (JWT 기반 인증)
-        //   "Content-Type": "application/json",
-        // },
         credentials: "include",
         body: formData,
       });
-      console.log("📌 보낼 Authorization 헤더: ", `Bearer ${jwtToken}`);
       const data = await response.json(); // 서버에서 반환된 데이터 (ID 포함)
 
       if (response.ok) {
@@ -215,7 +219,7 @@ export default function Write() {
                 setIsActionSheetOpen(true);
               }}
               fishes={fishes}
-              onUpdateFish={(updatedFish:any) => {
+              onUpdateFish={(updatedFish:FishingTripFish) => {
                 setFishes((prevFishes) =>
                   prevFishes.map((fish) =>
                     fish.nickname === updatedFish.nickname ? updatedFish : fish

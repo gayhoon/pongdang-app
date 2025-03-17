@@ -8,7 +8,7 @@ const KakaoCallback = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const code = searchParams.get("code"); // 카카오에서 받은 인증 코드
-  const { setJwtToken, fetchUser } = useAuth(); // ✅ useAuth()에서 setJwtToken 가져오기
+  const { fetchUser } = useAuth();
 
   useEffect(() => {
     if (code) {
@@ -27,16 +27,8 @@ const KakaoCallback = () => {
       });
 
       if(response.ok){
-        const userData = await response.json();
-
-        if (userData.jwt) {
-          setJwtToken(userData.jwt); // ✅ JWT를 상태에 저장
-        }
-
         await fetchUser(); // 로그인 성공 후 사용자 정보 즉시 갱신
-
         router.push("/community/fishingTrip"); // 로그인 성공 후 페이지 이동
-
       }else{
         console.error("로그인 실패");
       }

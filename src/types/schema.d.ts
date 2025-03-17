@@ -7,7 +7,7 @@ type FishingTripFish =
       description: string,
       imageFile?: File,
       imageUrl?: string
-    }
+    };
 
 // 게시글 타입 정의
 type FishingTrip = 
@@ -18,6 +18,7 @@ type FishingTrip =
     location: string,
     detail: string,
     authorNickname: string,
+    authorProfileImage: string,
     date: string, 
     viewCount: number,
     images: string[],
