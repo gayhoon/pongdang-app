@@ -87,6 +87,35 @@ export default function Read() {
     router.push(`/community/fishingTrip/write?id=${id}`); // 메인 페이지로 이동
   }
 
+  // ✅ 댓글 작성 함수
+  const addComment = async (content: any) => {
+
+    try {
+      const response = await fetch(
+        `http://localhost:8090/api/v1/fishingTrip/${Number(id)}/comments`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // ✅ JWT 토큰 추가
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`댓글 작성 실패: ${response.status}`);
+      }
+
+      return await response.json(); // ✅ 작성된 댓글 데이터 반환
+    } catch (error) {
+      console.error(error);
+      return null;
+    } finally {
+    }
+  };
+
+
   // 로딩 중일 때
   if(loading){
     return <>게시글을 불러오는 중 ...</>
@@ -152,6 +181,7 @@ export default function Read() {
               </div>
             </div>
           </div>
+          <button type="button" onClick={addComment("fffff")}>댓글작성테스트</button>
           <div className={styles.image_wrap}>
             {post.images &&post.images.length > 0 && (
               <Image
