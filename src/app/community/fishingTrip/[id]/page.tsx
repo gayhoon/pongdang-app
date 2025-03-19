@@ -10,6 +10,11 @@ import Link from "next/link";
 import IcHeaderArrow from "@/images/icons/ic_header_arrow.svg"
 import IcBtnOverflowModify from "@/images/icons/ic_btn_overflow_modify.svg"
 import IcBtnOverflowDelete from "@/images/icons/ic_btn_overflow_delete.svg"
+import IcComment from "@/images/icons/ic_comment.svg"
+import IcSmallTime from "@/images/icons/ic_small_time.svg"
+import IcLike from "@/images/icons/ic_like.svg"
+// import IcReply from "@/images/icons/ic_reply.svg"
+
 import styles from "./page.module.scss"
 import FishList from '@/component/FishList';
 import ActionSheet from '@/component/ActionSheet';
@@ -25,22 +30,12 @@ export default function Read() {
   const [selectedFish, setSelectedFish] = useState<FishingTripFish | null>(null)
   const router = useRouter();
   const [isAuthor, setIsAuthor] = useState(false);
+  const [newComment, setNewComment] = useState("");
   
 
   // ✅ 특정 게시글 데이터 가져오기
   useEffect(() => {
-    if (!id) return;
-    setLoading(true); //API 요청 시작 전 로딩 상태 true
-    fetch(`http://localhost:8090/api/v1/fishingTrip/${id}`)
-      .then((res) => {
-        if(!res.ok){
-          throw new Error(`게시글을 찾을 수 없습니다. (HTTP ${res.status})`);
-        }
-        return res.json()}
-      )
-      .then((data) => setPost(data))
-      .catch((error) => console.error("게시글 불러오기 실패:", error))
-      .finally(()=> setLoading(false)); // 요청 완료 후 로딩 상태 해제
+    getPostData();
   }, [id]);
 
   // 본인 글인 확인 후 isAuthor = true
@@ -53,6 +48,22 @@ export default function Read() {
       setIsAuthor(isUserAuthor);
     }
   },[user?.nickname, post?.authorNickname]) 
+
+  // 게시글 정보 요청
+  const getPostData = async () =>{
+    if (!id) return;
+    setLoading(true); //API 요청 시작 전 로딩 상태 true
+    fetch(`http://localhost:8090/api/v1/fishingTrip/${id}`)
+      .then((res) => {
+        if(!res.ok){
+          throw new Error(`게시글을 찾을 수 없습니다. (HTTP ${res.status})`);
+        }
+        return res.json()}
+      )
+      .then((data) => setPost(data))
+      .catch((error) => console.error("게시글 불러오기 실패:", error))
+      .finally(()=> setLoading(false)); // 요청 완료 후 로딩 상태 해제
+  }
 
   // 게시글 삭제 요청
   const handleDelete = async () => {    
@@ -88,25 +99,27 @@ export default function Read() {
   }
 
   // ✅ 댓글 작성 함수
-  const addComment = async (content: any) => {
+  const addComment = async () => {
+    if (!newComment.trim()) return; // 공백 방지
 
     try {
       const response = await fetch(
-        `http://localhost:8090/api/v1/fishingTrip/${Number(id)}/comments`,
+        `http://localhost:8090/api/v1/fishingTrip/comments/${Number(id)}`,
         {
           method: "POST",
+          credentials: "include",
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // ✅ JWT 토큰 추가
+            "Content-Type": "application/json",  // ✅ JSON 타입 설정
           },
-          body: JSON.stringify({ content }),
+          body: JSON.stringify({ content: newComment }),
         }
       );
 
       if (!response.ok) {
         throw new Error(`댓글 작성 실패: ${response.status}`);
       }
-
+      await getPostData();
+      setNewComment("");
       return await response.json(); // ✅ 작성된 댓글 데이터 반환
     } catch (error) {
       console.error(error);
@@ -115,6 +128,46 @@ export default function Read() {
     }
   };
 
+  // 날짜 포맷 변경
+  const formatTimeAgo = (createdAt: string):string => {
+    const createdTime = new Date(createdAt);
+    const now = new Date();
+    const diffMs = now.getTime() - createdTime.getTime(); // 밀리초 차이
+    const diffMinutes = Math.floor(diffMs / 60000); // 분 단위 변환
+    const diffHours = Math.floor(diffMinutes / 60); // 시간 단위 변환
+
+    if(diffMinutes < 60){
+      return `${diffMinutes}분 전`
+    }
+    return `${diffHours}시간 전`
+  }
+
+  // 좋아요 토글 실행
+  const toggleLike = async (commentId: number) =>{
+    if(user){
+      try {
+        const response = await fetch(`http://localhost:8090/api/v1/fishingTrip/comments/${commentId}/like`, {
+          method: "POST",
+          credentials: "include",
+        });
+    
+        if (response.ok) {
+          // 게시글 정보 다시 불러오기
+          await getPostData();
+        } else {
+          throw new Error("좋아요 요청 실패");
+        }
+      } catch (error) {
+        console.error("좋아요 요청 오류:", error);
+      }
+    }else{
+      if(confirm("로그인이 필요합니다. 로그인 화면으로 이동할까요?")){
+        router.push(`/account/login`);
+      }else{
+        return
+      }
+    }    
+  }
 
   // 로딩 중일 때
   if(loading){
@@ -181,7 +234,6 @@ export default function Read() {
               </div>
             </div>
           </div>
-          <button type="button" onClick={addComment("fffff")}>댓글작성테스트</button>
           <div className={styles.image_wrap}>
             {post.images &&post.images.length > 0 && (
               <Image
@@ -219,7 +271,73 @@ export default function Read() {
             )}
           </div>
         </div>
+        <hr />
+        <div className={styles.comment_list_wrap}>
+          <div className={styles.top}>
+            <div className={styles.count}>
+              <IcComment />
+              <p>댓글 {post.comments.length}</p>
+            </div>
+          </div>
+          <ul>
+            {post.comments.map((data)=>(
+              <li key={data.id} className={styles.comment_item_wrap}>
+                <div className={styles.comment_item}>
+                  <div className={styles.profile}>
+                    <Image
+                      src={`http://localhost:8090${data.authorProfileImage}`}
+                      alt="썸네일"
+                      width={100}
+                      height={100}
+                      style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
+                      priority
+                    />
+                  </div>
+                  <div className={styles.comment_content_wrap}>
+                    <div className={styles.writer_info}>
+                      <p className={styles.nickname}>{data.authorNickname}</p>
+                      <div className={styles.time}>
+                        <IcSmallTime />
+                        <p>{formatTimeAgo(data.createdAt)}</p>
+                      </div>
+                    </div>
+                    <p className={styles.comment_text}>{data.content}</p>
+                    <div className={styles.props}>
+                      <div className={styles.left}>
+                        <div className={user ? `${styles.like} ${styles.i_like}` : `${styles.like}`} onClick={()=>toggleLike(data.id)}>
+                          <IcLike />
+                          <p>{data.likeCount}</p>
+                        </div>
+                        {/* <div className={styles.reply_count}>
+                          <IcReply />
+                          <p>33</p>
+                        </div> */}
+                      </div>
+                      <div className={styles.right}></div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.comment_item_reply}></div>              
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
+      {user &&(
+        <div className={styles.comment_write_wrap}>
+          <textarea name="" id="" value={newComment} 
+            onChange={(e)=>setNewComment(e.target.value)} 
+            placeholder="댓글을 남겨주세요"
+            onKeyDown={(e)=>{
+              if (e.key === "Enter" && !e.shiftKey) {  // Shift + Enter는 줄바꿈 허용
+                e.preventDefault();  // 기본 엔터 입력 방지
+                addComment();
+              }
+            }}
+            ></textarea>
+          <button type="button" onClick={addComment}>등록</button>
+        </div>
+      )}
       {isActionSheetOpen && (
         <ActionSheet 
           type="readMode" 

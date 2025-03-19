@@ -9,6 +9,18 @@ type FishingTripFish =
       imageUrl?: string
     };
 
+// 게시글내 물고기 타입 정의
+type Comments = 
+  {
+    id: number,
+    authorNickname: string,
+    authorProfileImage: string,
+    content: string,
+    createdAt: string,
+    likeCount: number,
+    isLiked: boolean
+  };
+
 // 게시글 타입 정의
 type FishingTrip = 
   { 
@@ -22,5 +34,6 @@ type FishingTrip =
     date: string, 
     viewCount: number,
     images: string[],
-    fishes: FishingTripFish[]
+    fishes: FishingTripFish[],
+    comments: Comments[]
   };

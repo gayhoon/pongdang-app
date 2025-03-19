@@ -90,7 +90,7 @@ export default function FishingTrip() {
                       </div>
                     )}
                     <div className={styles.reply}>
-                      <p className={styles.num}>113</p>
+                      <p className={styles.num}>{data.comments.length}</p>
                       <p className={styles.static}>댓글</p>
                     </div>
                   </div>

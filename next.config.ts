@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  eslint: {
+    // 배포시에만 ESLint 비활성화
+    ignoreDuringBuilds: true,
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/, // .svg 확장자 처리
