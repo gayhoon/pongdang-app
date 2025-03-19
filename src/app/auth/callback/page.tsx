@@ -19,7 +19,7 @@ const KakaoCallback = () => {
 
   const sendCodeToBackend = async (code: string) => {
     try{
-      const response = await fetch("http://localhost:8090/api/v1/auth/kakao", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/kakao`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // HTTP-only 쿠키 사용

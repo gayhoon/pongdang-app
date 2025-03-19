@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchUser = async () => {
     try {
       
-      const response = await fetch("http://localhost:8090/api/v1/user/me", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/me`, {
         method: "GET",
         credentials: "include", // JWT 쿠키 포함
       });
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const deleteUser = async () => {
     try{
-      const response = await fetch("http://localhost:8090/api/v1/user/me", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/me`, {
         method: "DELETE",
         credentials: "include", // JWT 쿠키 포함
       })
@@ -89,7 +89,7 @@ export const useAuth = () => {
 
   // 로그인 된 상태에서 로그아웃 실행
   const logout = async () => {
-    await fetch("http://localhost:8090/api/v1/auth/logout", {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/logout`, {
       method: "POST",
       credentials: "include", // 로그인 시 백엔드 서버로부터 발급받은 JWT가 포함된 쿠키를 자동 전송
     });

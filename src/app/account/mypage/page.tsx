@@ -33,7 +33,7 @@ const Mypage = () => {
       const formData = new FormData();
       formData.append("nickname", nickname);
 
-      const response = await fetch("http://localhost:8090/api/v1/user/updateNickname",{
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/updateNickname`,{
         method: "PATCH", // PATCH를 사용하면 부분 업데이트가 가능하다
         credentials: "include",
         body: formData, // PATCH를 사용해 부분 업데이트 할것이므로 JSON내 nickname 처리 필요
@@ -73,7 +73,7 @@ const Mypage = () => {
     console.log(selectedImage)
 
     try{
-      const response = await fetch("http://localhost:8090/api/v1/user/uploadProfileImage",{
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/uploadProfileImage`,{
         method: "POST",
         credentials: "include",
         body: formData,
@@ -135,7 +135,7 @@ const Mypage = () => {
               <div className={styles.thumb_min}>
                 {profileImage ? (
                   <Image
-                  src={`http://localhost:8090${profileImage}`}
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImage}`}
                   alt="프로필사진"
                   width={200}
                   height={150}

@@ -19,7 +19,7 @@ const Home = () => {
 
   // const fetchBoards = async () => {
   //   try{
-  //     const response = await axios.get('http://localhost:8090/api/boards');
+  //     const response = await axios.get('%{process.env.NEXT_PUBLIC_BACKEND_URL}/api/boards');
   //     setBoards(response.data);
   //   }catch(error){
   //     console.error('에러발생', error);

@@ -14,7 +14,7 @@ const BoardForm = ({onPostSuccess}:BoardFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8090/api/boards', { title, content });
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/boards`, { title, content });
       setTitle('');
       setContent('');
       onPostSuccess(); // 게시글 작성 성공 시 목록을 업데이트

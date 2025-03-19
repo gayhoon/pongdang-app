@@ -35,7 +35,7 @@ export default function FishingTrip() {
 
   // ✅ 백엔드 API에서 게시글 목록 가져오기
   useEffect(() => {
-    fetch("http://localhost:8090/api/v1/fishingTrip")
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip`)
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch((error) => console.error("데이터 불러오기 실패:", error));

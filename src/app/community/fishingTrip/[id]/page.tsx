@@ -53,7 +53,7 @@ export default function Read() {
   const getPostData = async () =>{
     if (!id) return;
     setLoading(true); //API 요청 시작 전 로딩 상태 true
-    fetch(`http://localhost:8090/api/v1/fishingTrip/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/${id}`)
       .then((res) => {
         if(!res.ok){
           throw new Error(`게시글을 찾을 수 없습니다. (HTTP ${res.status})`);
@@ -75,7 +75,7 @@ export default function Read() {
     if (!confirm("정말 삭제하시겠습니까?")) return;
   
     try {
-      const response = await fetch(`http://localhost:8090/api/v1/fishingTrip/${Number(id)}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/${Number(id)}`, {
         method: "DELETE",
       });
   
@@ -104,7 +104,7 @@ export default function Read() {
 
     try {
       const response = await fetch(
-        `http://localhost:8090/api/v1/fishingTrip/comments/${Number(id)}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/comments/${Number(id)}`,
         {
           method: "POST",
           credentials: "include",
@@ -146,7 +146,7 @@ export default function Read() {
   const toggleLike = async (commentId: number) =>{
     if(user){
       try {
-        const response = await fetch(`http://localhost:8090/api/v1/fishingTrip/comments/${commentId}/like`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/comments/${commentId}/like`, {
           method: "POST",
           credentials: "include",
         });
@@ -214,7 +214,7 @@ export default function Read() {
           <div className={styles.write_info_wrap}>
             <div className={styles.user_picture}>
               <Image
-                src={`http://localhost:8090${post.authorProfileImage}`}
+                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${post.authorProfileImage}`}
                 alt="썸네일"
                 width={100}
                 height={100}
@@ -285,7 +285,7 @@ export default function Read() {
                 <div className={styles.comment_item}>
                   <div className={styles.profile}>
                     <Image
-                      src={`http://localhost:8090${data.authorProfileImage}`}
+                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${data.authorProfileImage}`}
                       alt="썸네일"
                       width={100}
                       height={100}

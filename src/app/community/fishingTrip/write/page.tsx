@@ -42,7 +42,7 @@ export default function Write() {
   useEffect(() => {
     if (!id) return; // id가 없다면 실행 안함
 
-    fetch(`http://localhost:8090/api/v1/fishingTrip/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setTitle(data.title);
@@ -152,7 +152,7 @@ export default function Write() {
     });
 
     try {
-      const response = await fetch("http://localhost:8090/api/v1/fishingTrip", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip`, {
         method: "POST",
         credentials: "include",
         body: formData,
