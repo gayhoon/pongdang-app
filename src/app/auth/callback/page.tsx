@@ -21,7 +21,10 @@ const KakaoCallback = () => {
     try{
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/kakao`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": "true",
+         },
         credentials: "include", // HTTP-only 쿠키 사용
         body: JSON.stringify({ code }),
       });
