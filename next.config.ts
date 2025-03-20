@@ -5,8 +5,14 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "43.201.88.18",
+        // 로컬개발시 [체인지]
+        // protocol: "http",
+        // hostname: "localhost",
+        
+        // 운영올릴때 [체인지]
+        protocol: "https",
+        hostname: "pongdangserver.shop",
+
         port: "8090",
         pathname: "/uploads/**", // ✅ 업로드된 이미지 폴더 허용
       },
