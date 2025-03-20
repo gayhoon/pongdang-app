@@ -213,14 +213,25 @@ export default function Read() {
           <h3>{post.title}</h3>
           <div className={styles.write_info_wrap}>
             <div className={styles.user_picture}>
-              <Image
-                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${post.authorProfileImage}`}
-                alt="썸네일"
-                width={100}
-                height={100}
-                style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
-                priority
-              />
+              {post.authorProfileImage ? (
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${post.authorProfileImage}`}
+                  alt="썸네일"
+                  width={100}
+                  height={100}
+                  style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
+                  priority
+                />
+              ):(
+                <Image
+                  src="/images/img_profile_picture.png"
+                  alt="프로필사진"
+                  width={200}
+                  height={150}
+                  style={{ objectFit: "cover", width: '100%', height: '100%' }}
+                  priority
+                />
+              )}
             </div>
             <div className={styles.write_info_min}>
               <div className={styles.user_info}>
