@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "localhost",
+        hostname: "43.201.88.18",
         port: "8090",
         pathname: "/uploads/**", // ✅ 업로드된 이미지 폴더 허용
       },
