@@ -72,6 +72,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      if (isSafari) {
+        console.log("사파리 환경 감지됨! 강제 리로드 실행");
+        window.location.href = window.location.href;
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     fetchUser(); // 로그인 상태 초기화
   }, []);
 
