@@ -25,10 +25,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // 서버에서 사용자 정보 가져오기
   const fetchUser = async () => {
     try {
+
+      // ✅ Safari 대응: JWT가 쿠키에 저장되지 않았을 경우, localStorage에서 가져오기
+      const token = localStorage.getItem("jwt");
       
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/user/me`, {
         method: "GET",
         credentials: "include", // JWT 쿠키 포함
+        headers: token ? { Authorization: `Bearer ${token}` } : {}, // JWT 헤더 추가
       });
 
       if (response.ok) {
@@ -94,6 +98,7 @@ export const useAuth = () => {
       credentials: "include", // 로그인 시 백엔드 서버로부터 발급받은 JWT가 포함된 쿠키를 자동 전송
     });
 
+    localStorage.removeItem("jwt"); // ✅ Safari 대응: 저장된 JWT 삭제
     context.setUser(null);
   };
 
