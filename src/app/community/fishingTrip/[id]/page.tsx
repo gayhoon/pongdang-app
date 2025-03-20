@@ -225,10 +225,10 @@ export default function Read() {
               ):(
                 <Image
                   src="/images/img_profile_picture.png"
-                  alt="프로필사진"
-                  width={200}
-                  height={150}
-                  style={{ objectFit: "cover", width: '100%', height: '100%' }}
+                  alt="썸네일"
+                  width={100}
+                  height={100}
+                  style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
                   priority
                 />
               )}
