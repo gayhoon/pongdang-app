@@ -39,6 +39,7 @@ export default function FishingTrip() {
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("Fetched data:", data); // ✅ 데이터 확인용 로그 추가
         setPosts(data);
         setIsLoading(false); // ✅ 데이터 로딩 완료
       })
