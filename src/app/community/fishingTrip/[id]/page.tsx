@@ -259,7 +259,7 @@ export default function Read() {
                 spaceBetween={0}
                 slidesPerView={1}
                 navigation={false}
-                pagination={false}
+                pagination={{ clickable: true }}
                 autoplay={{ delay: 3000 }}
                 loop
               >
