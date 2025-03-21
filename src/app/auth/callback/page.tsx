@@ -27,15 +27,9 @@ const KakaoCallback = () => {
       });
 
       if(response.ok){
-        const data = await response.json(); // 서버 응답 받기 (JWT 포함)
-
-        // ✅ Safari 대응: JWT를 로컬 상태에도 저장
-        if (data.jwt) {
-          localStorage.setItem("jwt", data.jwt);
-        }
-        
         await fetchUser(); // 로그인 성공 후 사용자 정보 즉시 갱신
         router.push("/community/fishingTrip"); // 로그인 성공 후 페이지 이동
+        console.log("로그인 성공");
       }else{
         console.error("로그인 실패");
       }
