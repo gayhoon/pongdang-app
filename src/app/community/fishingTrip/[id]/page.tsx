@@ -295,14 +295,25 @@ export default function Read() {
               <li key={data.id} className={styles.comment_item_wrap}>
                 <div className={styles.comment_item}>
                   <div className={styles.profile}>
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${data.authorProfileImage}`}
-                      alt="썸네일"
-                      width={100}
-                      height={100}
-                      style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
-                      priority
-                    />
+                    {data.authorProfileImage ? (
+                      <Image
+                        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${data.authorProfileImage}`}
+                        alt="썸네일"
+                        width={100}
+                        height={100}
+                        style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
+                        priority
+                      />
+                    ) : (
+                      <Image
+                        src="/images/img_profile_picture.png"
+                        alt="썸네일"
+                        width={100}
+                        height={100}
+                        style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
+                        priority
+                      />
+                    )}
                   </div>
                   <div className={styles.comment_content_wrap}>
                     <div className={styles.writer_info}>
