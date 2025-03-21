@@ -258,8 +258,8 @@ export default function Read() {
                 modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={0}
                 slidesPerView={1}
-                navigation
-                pagination={{ clickable: true }}
+                navigation={false}
+                pagination={false}
                 autoplay={{ delay: 3000 }}
                 loop
               >
