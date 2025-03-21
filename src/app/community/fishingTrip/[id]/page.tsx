@@ -5,6 +5,13 @@ import { useRouter } from 'next/navigation';
 import { useParams } from "next/navigation";
 import {useAuth} from "@/context/AuthContext"
 
+// swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
 import Image from 'next/image';
 import Link from "next/link";
 import IcHeaderArrow from "@/images/icons/ic_header_arrow.svg"
@@ -246,15 +253,29 @@ export default function Read() {
             </div>
           </div>
           <div className={styles.image_wrap}>
-            {post.images &&post.images.length > 0 && (
-              <Image
-                src={post.images[0]}
-                alt="썸네일"
-                width={1000}
-                height={1000}
-                style={{ objectFit: "contain", width: '100%', height: 'auto' }}
-                priority
-              />
+            {post.images && post.images.length > 0 && (
+              <Swiper
+                modules={[Navigation, Pagination, Autoplay]}
+                spaceBetween={0}
+                slidesPerView={1}
+                navigation
+                pagination={{ clickable: true }}
+                autoplay={{ delay: 3000 }}
+                loop
+              >
+                {post.images.map((image, index)=>(
+                  <SwiperSlide key={index}>
+                    <Image
+                    src={image}
+                    alt="썸네일"
+                    width={1000}
+                    height={1000}
+                    style={{ objectFit: "contain", width: '100%', height: 'auto' }}
+                    priority
+                  />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             )}
           </div>
           
