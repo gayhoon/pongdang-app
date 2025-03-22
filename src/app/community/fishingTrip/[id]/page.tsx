@@ -26,6 +26,7 @@ import styles from "./page.module.scss"
 import FishList from '@/component/FishList';
 import ActionSheet from '@/component/ActionSheet';
 import OverflowMenu from "@/component/OverflowMenu";
+import KakaoMapPrint from "@/component/KakaoMapPrint";
 
 export default function Read() {
 
@@ -136,18 +137,30 @@ export default function Read() {
   };
 
   // 날짜 포맷 변경
-  const formatTimeAgo = (createdAt: string):string => {
+  const formatTimeAgo = (createdAt: string): string => {
     const createdTime = new Date(createdAt);
     const now = new Date();
-    const diffMs = now.getTime() - createdTime.getTime(); // 밀리초 차이
-    const diffMinutes = Math.floor(diffMs / 60000); // 분 단위 변환
-    const diffHours = Math.floor(diffMinutes / 60); // 시간 단위 변환
-
-    if(diffMinutes < 60){
-      return `${diffMinutes}분 전`
+    const diffMs = now.getTime() - createdTime.getTime();
+    const diffMinutes = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
+  
+    if (diffMinutes < 60) {
+      return `${diffMinutes}분 전`;
+    } else if (diffHours < 24) {
+      return `${diffHours}시간 전`;
+    } else if (diffDays < 7) {
+      return `${diffDays}일 전`;
+    } else {
+      // 날짜 자체 표시 (예: 2024.03.21)
+      return createdTime.toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).replace(/\.\s/g, '.').replace('.', '.');
     }
-    return `${diffHours}시간 전`
-  }
+  };
+  
 
   // 좋아요 토글 실행
   const toggleLike = async (commentId: number) =>{
@@ -278,16 +291,6 @@ export default function Read() {
               </Swiper>
             )}
           </div>
-          
-            <div className={styles.location_wrap}>
-              <h2>장소</h2>
-              <div className={styles.location_min}>
-                <p>{post.location}</p>
-                  {!post.location && (
-                    <p className={styles.has_not}>장소가 등록되지 않았습니다</p>
-                  )}
-              </div>
-            </div>
           <div className={styles.detail_wrap}>
             <div className={styles.detail_min}>
               <p>{post.detail}</p>
@@ -301,6 +304,16 @@ export default function Read() {
             {post.fishes &&post.fishes.length == 0 && (
               <p className={styles.has_not}>물고기가 등록되지 않았습니다</p>
             )}
+          </div>
+          <div className={styles.location_wrap}>
+            <h2>장소</h2>
+            <div className={styles.location_min}>
+              <p>{post.location}</p>
+                {!post.location && (
+                  <p className={styles.has_not}>장소가 등록되지 않았습니다</p>
+                )}
+            </div>
+            <KakaoMapPrint />
           </div>
         </div>
         <hr />
