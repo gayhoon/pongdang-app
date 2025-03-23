@@ -61,7 +61,10 @@ export default function Read() {
   const getPostData = async () =>{
     if (!id) return;
     setLoading(true); //API 요청 시작 전 로딩 상태 true
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/${id}`, {
+      method: "GET",
+      credentials: "include", // ✅ 이거 없으면 jwt 쿠키 안감
+    })
       .then((res) => {
         if(!res.ok){
           throw new Error(`게시글을 찾을 수 없습니다. (HTTP ${res.status})`);
@@ -85,6 +88,7 @@ export default function Read() {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/${Number(id)}`, {
         method: "DELETE",
+        credentials: "include", // ✅ 이거 없으면 jwt 쿠키 안감
       });
   
       if (response.ok) {
