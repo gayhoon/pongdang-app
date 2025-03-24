@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from 'next/navigation';
 import { useParams } from "next/navigation";
 import {useAuth} from "@/context/AuthContext"
@@ -38,13 +38,23 @@ export default function Read() {
   const [selectedFish, setSelectedFish] = useState<FishingTripFish | null>(null)
   const router = useRouter();
   const [isAuthor, setIsAuthor] = useState(false);
+  const [comments, setComments] = useState<Comments[]>([]);
   const [newComment, setNewComment] = useState("");
-  
+  const commentsEndRef = useRef<HTMLDivElement>(null);
+  const [shouldScrollToBottom, setShouldScrollToBottom] = useState(false);
 
   // ✅ 특정 게시글 데이터 가져오기
   useEffect(() => {
+    if(!id) return;
     getPostData();
+    getComments();
   }, [id]);
+  
+  useEffect(()=>{
+    // 댓글 작성 완료 후 댓글영역 맨 아래로 스크롤 이동
+    commentsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    setShouldScrollToBottom(false); // 플래그 초기화
+  },[shouldScrollToBottom])
 
   // 본인 글인 확인 후 isAuthor = true
   useEffect(()=>{
@@ -73,6 +83,15 @@ export default function Read() {
       .then((data) => setPost(data))
       .catch((error) => console.error("게시글 불러오기 실패:", error))
       .finally(()=> setLoading(false)); // 요청 완료 후 로딩 상태 해제
+  }
+
+  // 댓글 정보 요청
+  const getComments = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/comments/${id}`, {
+      method: "GET",
+    });
+    const data = await res.json();
+    setComments(data);
   }
 
   // 게시글 삭제 요청
@@ -111,7 +130,7 @@ export default function Read() {
   // ✅ 댓글 작성 함수
   const addComment = async () => {
     if (!newComment.trim()) return; // 공백 방지
-
+    
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/comments/${Number(id)}`,
@@ -128,13 +147,19 @@ export default function Read() {
       if (!response.ok) {
         throw new Error(`댓글 작성 실패: ${response.status}`);
       }
-      await getPostData();
+      
+      const newCommentData = await response.json();
+
+      // ✅ 기존 comments에 새 댓글 추가
+      setComments((prevComments)=>[...prevComments, newCommentData]);
+
+      // 스크롤 플래그 활성화 → 렌더링 이후 useEffect에서 스크롤
+      setShouldScrollToBottom(true)
+
+      // 입력창 초기화
       setNewComment("");
-      return await response.json(); // ✅ 작성된 댓글 데이터 반환
     } catch (error) {
       console.error(error);
-      return null;
-    } finally {
     }
   };
 
@@ -174,8 +199,20 @@ export default function Read() {
         });
     
         if (response.ok) {
+          const result = await response.json();
+
+          setComments((prevComments)=>{
+            return prevComments.map((comment)=>{
+              if(comment.id == commentId){
+                return {...comment, likeCount: result.likeCount}
+              }else{
+                return comment;
+              }
+            })
+          })
+
           // 게시글 정보 다시 불러오기
-          await getPostData();
+          // await getPostData();
         } else {
           throw new Error("좋아요 요청 실패");
         }
@@ -327,7 +364,7 @@ export default function Read() {
             </div>
           </div>
           <ul>
-            {post.comments.map((data)=>(
+            {comments.map((data)=>(
               <li key={data.id} className={styles.comment_item_wrap}>
                 <div className={styles.comment_item}>
                   <div className={styles.profile}>
@@ -375,7 +412,9 @@ export default function Read() {
                     </div>
                   </div>
                 </div>
-                <div className={styles.comment_item_reply}></div>              
+                <div className={styles.comment_item_reply}></div>    
+                {/* 댓글 작성하면 scroll 이동시킬 ref (해당 dom은 눈에 안보임) */}
+                <div ref={commentsEndRef}></div>     
               </li>
             ))}
           </ul>
