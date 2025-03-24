@@ -31,7 +31,6 @@ import KakaoMapPrint from "@/component/KakaoMapPrint";
 export default function Read() {
 
   const { user } = useAuth();
-  const [loading, setLoading] = useState<boolean>(true);
   const { id } = useParams(); // ✅ URL에서 ID 가져오기
   const [post, setPost] = useState<FishingTrip | null>(null);
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
@@ -70,7 +69,6 @@ export default function Read() {
   // 게시글 정보 요청
   const getPostData = async () =>{
     if (!id) return;
-    setLoading(true); //API 요청 시작 전 로딩 상태 true
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip/${id}`, {
       method: "GET",
     })
@@ -82,7 +80,6 @@ export default function Read() {
       )
       .then((data) => setPost(data))
       .catch((error) => console.error("게시글 불러오기 실패:", error))
-      .finally(()=> setLoading(false)); // 요청 완료 후 로딩 상태 해제
   }
 
   // 댓글 정보 요청
@@ -226,11 +223,6 @@ export default function Read() {
         return
       }
     }    
-  }
-
-  // 로딩 중일 때
-  if(loading){
-    return <>게시글을 불러오는 중 ...</>
   }
 
   // 데이터가 들어오지 않았을 때

@@ -1,31 +1,22 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
-
 import FooterNav from "@/component/FooterNav";
 import Header from "@/component/Header";
 import NavCommunity from "@/component/navigation/NavCommunity";
-import IcListWrite from "@/images/icons/ic_list_write.svg";
-import ActionSheet from "@/component/ActionSheet";
 
 import Image from 'next/image'
 import Link from 'next/link';
 
 import styles from "./page.module.scss";
+import ListWriteButton from "@/component/ListWriteControl";
 
-export default function FishingTrip() {
+export default async function FishingTrip() {
 
-  const { user } = useAuth();
-  const router = useRouter();
-  
-  const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
-  const [posts, setPosts] = useState<FishingTrip[]>([]);
-  const [isLoading, setIsLoading] = useState(true); // ✅ 로딩 상태 추가
+  // 게시글 목록 조회 요청
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip`, {
+    cache: "no-store"  // 항상 최신 데이터 가져오기
+  });
 
-  // 하위 특정 경로내 페이지는 본 레이아웃 적용 금지
-  const pathname = usePathname();
+  // 서버로부터 전달받은 게시글 목록
+  const posts: FishingTrip[] = await res.json();
 
   // 날짜형식 yyyy-mm-dd -> yy.mm.dd 변경
   const formatDate = (dateString: string): string => {
@@ -33,40 +24,7 @@ export default function FishingTrip() {
     const [year, month, day] = dateString.split("-");
     return `${year.slice(2)}.${month}.${day}`;
   };
-
-  // ✅ 백엔드 API에서 게시글 목록 가져오기
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/fishingTrip`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Fetched data:", data); // ✅ 데이터 확인용 로그 추가
-        setPosts(data);
-        setIsLoading(false); // ✅ 데이터 로딩 완료
-      })
-      .catch((error) => {
-        console.error("데이터 불러오기 실패:", error);
-        setIsLoading(false); // ✅ 에러 발생 시 로딩 종료
-      });
-  }, []);
   
-  // 로그인된 상태라면 actionSheet를 보여주고, 아니라면 로그인화면으로 이동
-  const checkLogin = () => {
-    if(user){
-      setIsActionSheetOpen(true);
-    }else{
-      router.push("/account/login");
-    }
-  }
-
-  useEffect(() => {
-    setIsActionSheetOpen(false);
-  }, [pathname]); // ✅ pathname이 변경될 때마다 실행됨
-
-  // ✅ 데이터 로딩 중이면 메시지 표시
-  if (isLoading) {
-    return <p className={styles.loading}>데이터를 불러오는 중...</p>;
-  }
-
   return (
     <div className={styles.sub_menupage_wrap}>
       <Header type="submain" />
@@ -116,10 +74,9 @@ export default function FishingTrip() {
             )}
           </ul>
         </div>
-        <button type="button" className={styles.btn_write} onClick={checkLogin}><IcListWrite/>글쓰기</button>
+        <ListWriteButton />
       </div>
       <FooterNav />
-      <ActionSheet type="list" isOpen={isActionSheetOpen} onClose={() => setIsActionSheetOpen(false)} />      
     </div>
   );
 };

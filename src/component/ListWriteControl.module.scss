@@ -1,0 +1,17 @@
+.btn_write{
+    position: fixed;
+    right: 20px;
+    bottom: calc(90px + env(safe-area-inset-bottom));
+    background-color: #00d7f3;
+    width: 42px;
+    height: 42px;
+    border-radius: 42px;
+    z-index: 99;
+    border: 0;
+    font-size: 0;
+    color: transparent;
+
+    @media(min-width: 600px){
+        left: calc(50% + 230px);
+    }
+}

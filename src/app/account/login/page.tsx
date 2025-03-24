@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Image from "next/image";
@@ -14,8 +13,6 @@ import IcHeaderHome from "@/images/icons/ic_header_home.svg";
 import styles from "./page.module.scss";
 const Login = () => {
   const router = useRouter();
-
-  const [nickname, setNickname] = useState<String | null>(null);
 
   // 로그인 시도
   const handleLogin = () => {
