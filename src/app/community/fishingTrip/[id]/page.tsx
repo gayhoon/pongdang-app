@@ -225,11 +225,6 @@ export default function Read() {
     }    
   }
 
-  // 데이터가 들어오지 않았을 때
-  if(!post){
-    return <>게시글을 찾을 수 없습니다.</>
-  }
-
   return (
     <div className={styles.layout_read_wrap}>
       <header className={styles.layout_read_wrap_header}>
@@ -259,159 +254,161 @@ export default function Read() {
           </div>
         )}
       </header>
-      <div className={styles.contents_wrap}>
-        <div className={styles.contents_min}>
-          <h3>{post.title}</h3>
-          <div className={styles.write_info_wrap}>
-            <div className={styles.user_picture}>
-              {post.authorProfileImage ? (
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${post.authorProfileImage}`}
-                  alt="썸네일"
-                  width={100}
-                  height={100}
-                  style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
-                  priority
-                />
-              ):(
-                <Image
-                  src="/images/img_profile_picture.png"
-                  alt="썸네일"
-                  width={100}
-                  height={100}
-                  style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
-                  priority
-                />
-              )}
-            </div>
-            <div className={styles.write_info_min}>
-              <div className={styles.user_info}>
-                <span className={styles.user_name}>{post.authorNickname}</span>
-                <span className={styles.user_level}>완벽한 배서</span>
-              </div>
-              <div className={styles.write_info}>
-                <p className={styles.time}>{post.date}</p>
-                <p className={styles.view}>{post.viewCount}</p>
-                {/* <p className={styles.like}>2</p> */}
-              </div>
-            </div>
-          </div>
-          <div className={styles.image_wrap}>
-            {post.images && post.images.length > 0 && (
-              <Swiper
-                modules={[Navigation, Pagination, Autoplay]}
-                spaceBetween={0}
-                slidesPerView={1}
-                navigation={false}
-                pagination={{ clickable: true }}
-                autoplay={{ delay: 3000 }}
-                loop
-              >
-                {post.images.map((image, index)=>(
-                  <SwiperSlide key={index}>
+      {post && (
+        <div className={styles.contents_wrap}>
+          <div className={styles.contents_min}>
+            <h3>{post.title}</h3>
+              <div className={styles.write_info_wrap}>
+                <div className={styles.user_picture}>
+                  {post.authorProfileImage ? (
                     <Image
-                    src={image}
-                    alt="썸네일"
-                    width={1000}
-                    height={1000}
-                    style={{ objectFit: "contain", width: '100%', height: 'auto' }}
-                    priority
-                  />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            )}
-          </div>
-          <div className={styles.detail_wrap}>
-            <div className={styles.detail_min}>
-              <p>{post.detail}</p>
-            </div>
-          </div>
-          <div className={styles.fish_list_wrap}>
-            <FishList type="read" fishDetailOpen={(fish)=>{
-                setSelectedFish(fish);
-                setIsActionSheetOpen(true);
-              }} fishes={post.fishes} />
-            {post.fishes &&post.fishes.length == 0 && (
-              <p className={styles.has_not}>물고기가 등록되지 않았습니다</p>
-            )}
-          </div>
-          <div className={styles.location_wrap}>
-            <h2>장소</h2>
-            <div className={styles.location_min}>
-              <p>{post.location}</p>
-                {!post.location && (
-                  <p className={styles.has_not}>장소가 등록되지 않았습니다</p>
-                )}
-            </div>
-            <KakaoMapPrint />
-          </div>
-        </div>
-        <hr />
-        <div className={styles.comment_list_wrap}>
-          <div className={styles.top}>
-            <div className={styles.count}>
-              <IcComment />
-              <p>댓글 {post.comments.length}</p>
-            </div>
-          </div>
-          <ul>
-            {comments.map((data)=>(
-              <li key={data.id} className={styles.comment_item_wrap}>
-                <div className={styles.comment_item}>
-                  <div className={styles.profile}>
-                    {data.authorProfileImage ? (
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${data.authorProfileImage}`}
-                        alt="썸네일"
-                        width={100}
-                        height={100}
-                        style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
-                        priority
-                      />
-                    ) : (
-                      <Image
-                        src="/images/img_profile_picture.png"
-                        alt="썸네일"
-                        width={100}
-                        height={100}
-                        style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
-                        priority
-                      />
-                    )}
+                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${post.authorProfileImage}`}
+                      alt="썸네일"
+                      width={100}
+                      height={100}
+                      style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
+                      priority
+                    />
+                  ):(
+                    <Image
+                      src="/images/img_profile_picture.png"
+                      alt="썸네일"
+                      width={100}
+                      height={100}
+                      style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
+                      priority
+                    />
+                  )}
+                </div>
+                <div className={styles.write_info_min}>
+                  <div className={styles.user_info}>
+                    <span className={styles.user_name}>{post.authorNickname}</span>
+                    <span className={styles.user_level}>완벽한 배서</span>
                   </div>
-                  <div className={styles.comment_content_wrap}>
-                    <div className={styles.writer_info}>
-                      <p className={styles.nickname}>{data.authorNickname}</p>
-                      <div className={styles.time}>
-                        <IcSmallTime />
-                        <p>{formatTimeAgo(data.createdAt)}</p>
-                      </div>
-                    </div>
-                    <p className={styles.comment_text}>{data.content}</p>
-                    <div className={styles.props}>
-                      <div className={styles.left}>
-                        <div className={user ? `${styles.like} ${styles.i_like}` : `${styles.like}`} onClick={()=>toggleLike(data.id)}>
-                          <IcLike />
-                          <p>{data.likeCount}</p>
-                        </div>
-                        {/* <div className={styles.reply_count}>
-                          <IcReply />
-                          <p>33</p>
-                        </div> */}
-                      </div>
-                      <div className={styles.right}></div>
-                    </div>
+                  <div className={styles.write_info}>
+                    <p className={styles.time}>{post.date}</p>
+                    <p className={styles.view}>{post.viewCount}</p>
+                    {/* <p className={styles.like}>2</p> */}
                   </div>
                 </div>
-                <div className={styles.comment_item_reply}></div>    
-                {/* 댓글 작성하면 scroll 이동시킬 ref (해당 dom은 눈에 안보임) */}
-                <div ref={commentsEndRef}></div>     
-              </li>
-            ))}
-          </ul>
+              </div>
+              <div className={styles.image_wrap}>
+                {post.images && post.images.length > 0 && (
+                  <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    navigation={false}
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 3000 }}
+                    loop
+                  >
+                    {post.images.map((image, index)=>(
+                      <SwiperSlide key={index}>
+                        <Image
+                        src={image}
+                        alt="썸네일"
+                        width={1000}
+                        height={1000}
+                        style={{ objectFit: "contain", width: '100%', height: 'auto' }}
+                        priority
+                      />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                )}
+              </div>
+              <div className={styles.detail_wrap}>
+                <div className={styles.detail_min}>
+                  <p>{post.detail}</p>
+                </div>
+              </div>
+              <div className={styles.fish_list_wrap}>
+                <FishList type="read" fishDetailOpen={(fish)=>{
+                    setSelectedFish(fish);
+                    setIsActionSheetOpen(true);
+                  }} fishes={post.fishes} />
+                {post.fishes &&post.fishes.length == 0 && (
+                  <p className={styles.has_not}>물고기가 등록되지 않았습니다</p>
+                )}
+              </div>
+              <div className={styles.location_wrap}>
+                <h2>장소</h2>
+                <div className={styles.location_min}>
+                  <p>{post.location}</p>
+                    {!post.location && (
+                      <p className={styles.has_not}>장소가 등록되지 않았습니다</p>
+                    )}
+                </div>
+                <KakaoMapPrint />
+              </div>
+          </div>
+          <hr />
+          <div className={styles.comment_list_wrap}>
+            <div className={styles.top}>
+              <div className={styles.count}>
+                <IcComment />
+                <p>댓글 {post.comments.length}</p>
+              </div>
+            </div>
+            <ul>
+              {comments.map((data)=>(
+                <li key={data.id} className={styles.comment_item_wrap}>
+                  <div className={styles.comment_item}>
+                    <div className={styles.profile}>
+                      {data.authorProfileImage ? (
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${data.authorProfileImage}`}
+                          alt="썸네일"
+                          width={100}
+                          height={100}
+                          style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
+                          priority
+                        />
+                      ) : (
+                        <Image
+                          src="/images/img_profile_picture.png"
+                          alt="썸네일"
+                          width={100}
+                          height={100}
+                          style={{ objectFit: "contain", width: 'auto', height: 'auto' }}
+                          priority
+                        />
+                      )}
+                    </div>
+                    <div className={styles.comment_content_wrap}>
+                      <div className={styles.writer_info}>
+                        <p className={styles.nickname}>{data.authorNickname}</p>
+                        <div className={styles.time}>
+                          <IcSmallTime />
+                          <p>{formatTimeAgo(data.createdAt)}</p>
+                        </div>
+                      </div>
+                      <p className={styles.comment_text}>{data.content}</p>
+                      <div className={styles.props}>
+                        <div className={styles.left}>
+                          <div className={user ? `${styles.like} ${styles.i_like}` : `${styles.like}`} onClick={()=>toggleLike(data.id)}>
+                            <IcLike />
+                            <p>{data.likeCount}</p>
+                          </div>
+                          {/* <div className={styles.reply_count}>
+                            <IcReply />
+                            <p>33</p>
+                          </div> */}
+                        </div>
+                        <div className={styles.right}></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.comment_item_reply}></div>    
+                  {/* 댓글 작성하면 scroll 이동시킬 ref (해당 dom은 눈에 안보임) */}
+                  <div ref={commentsEndRef}></div>     
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
       {user &&(
         <div className={styles.comment_write_wrap}>
           <textarea name="" id="" value={newComment} 
