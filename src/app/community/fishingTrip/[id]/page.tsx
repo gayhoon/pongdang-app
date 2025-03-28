@@ -26,7 +26,7 @@ import styles from "./page.module.scss"
 import FishList from '@/component/FishList';
 import ActionSheet from '@/component/ActionSheet';
 import OverflowMenu from "@/component/OverflowMenu";
-import KakaoMapPrint from "@/component/KakaoMapPrint";
+import KakaoMapPrint from "@/component/kakaomap/KakaoMapPrint";
 
 export default function Read() {
 

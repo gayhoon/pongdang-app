@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+  <g id="ic_mylocation" transform="translate(-504 -291.033)">
+    <path id="패스_95" data-name="패스 95" d="M515.5,314.033a11.5,11.5,0,1,1,11.5-11.5A11.513,11.513,0,0,1,515.5,314.033Zm0-21.746a10.247,10.247,0,1,0,10.247,10.246A10.258,10.258,0,0,0,515.5,292.286Z" transform="translate(0)" fill="#1a1818"/>
+    <g id="그룹_94" data-name="그룹 94" transform="translate(514.935 291.661)">
+      <rect id="사각형_14" data-name="사각형 14" width="4.369" height="1.255" rx="0.627" transform="translate(1.255) rotate(90)" fill="#1a1818"/>
+      <rect id="사각형_15" data-name="사각형 15" width="4.369" height="1.255" rx="0.627" transform="translate(1.255 17.45) rotate(90)" fill="#1a1818"/>
+    </g>
+    <g id="그룹_95" data-name="그룹 95" transform="translate(504.653 301.943)">
+      <rect id="사각형_16" data-name="사각형 16" width="4.369" height="1.255" rx="0.627" fill="#1a1818"/>
+      <rect id="사각형_17" data-name="사각형 17" width="4.369" height="1.255" rx="0.627" transform="translate(17.45)" fill="#1a1818"/>
+    </g>
+    <circle id="타원_4" data-name="타원 4" cx="2.44" cy="2.44" r="2.44" transform="translate(513.06 300.093)" fill="#1a1818"/>
+  </g>
+</svg>
