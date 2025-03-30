@@ -13,7 +13,7 @@ import { redirect } from 'next/navigation';
 // }
 
 const Home = () => {
-  redirect('/intro');
+  redirect('/community/fishingTrip');
   
   // const [boards, setBoards] = useState<Board[]>([])
 
