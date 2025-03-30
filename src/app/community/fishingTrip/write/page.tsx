@@ -9,6 +9,7 @@ import AutoResizeTextarea from "@/component/AutoResizeTextarea";
 import ActionSheet from "@/component/ActionSheet";
 import MultiImageUpload from "@/component/MultiImageUpload";
 import FishList from "@/component/FishList";
+import KakaoMapWithSelect from "@/component/kakaomap/KakaoMapWithSelect";
 
 export default function Write() {
   const router = useRouter();
@@ -192,11 +193,6 @@ export default function Write() {
           </li>
           <li>
             <div className="input_text_wrap">
-              <input type="text" placeholder="장소 입력" value={location} onChange={(e) => setLocation(e.target.value)} ref={locationRef} />
-            </div>
-          </li>
-          <li>
-            <div className="input_text_wrap">
               {/* <textarea name="" id="" placeholder="내용을 입력해주세요"></textarea> */}
               <AutoResizeTextarea value={detail} onChange={setDetail} ref={detailRef} />
             </div>
@@ -227,6 +223,16 @@ export default function Write() {
                 );
               }}
             />
+          </li>
+          <li>
+            <div className="input_text_wrap">
+              <input type="text" placeholder="장소 입력" value={location} onChange={(e) => setLocation(e.target.value)} ref={locationRef} />
+            </div>
+          </li>
+          <li>
+            <div className="input_text_wrap">
+              <KakaoMapWithSelect />
+            </div>
           </li>
         </ul>
         {isActionSheetOpen && (
