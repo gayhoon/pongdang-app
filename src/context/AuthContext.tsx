@@ -13,6 +13,7 @@ type User = {
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     fetchUser: () => Promise<void>; // 로그인 후 즉시 호출 가능하도록 fetchUser 추가
     deleteUser: () => Promise<void>; // 회원탈퇴 함수 추가
+    loading: boolean; // 🔥 추가
   };
 
 // 로그인 상태 Context 생성
@@ -83,7 +84,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, fetchUser, deleteUser }}>
+    <AuthContext.Provider value={{ user, setUser, fetchUser, deleteUser, loading }}>
       {children}
     </AuthContext.Provider>
   );
