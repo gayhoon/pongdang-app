@@ -15,9 +15,8 @@
             position: relative;
             flex-shrink: 0;
             z-index: 2;
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
             width: 100%;
             background-color: #fff;
 
@@ -93,7 +92,6 @@
 .contents_wrap{
     padding: 10px 0px 20px 0px;
     overflow-y: auto;
-    margin-top: 60px;
     
     > .contents_min{
         display: flex;
