@@ -11,27 +11,23 @@ import styles from "./ListWriteControl.module.scss";
 
 export default function ListWriteControl() {
 
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
 
   // 하위 특정 경로내 페이지는 본 레이아웃 적용 금지
   const pathname = usePathname();
 
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
-
-  // 🔐 아직 인증 정보 로딩 중이면 렌더링 중단 (or 로딩 UI)
-  if (loading) return null;
   
   // 로그인된 상태라면 actionSheet를 보여주고, 아니라면 로그인화면으로 이동
   const checkLogin = () => {
-    alert('vvvv')
-    // if(user){
-    //   alert('a')
-    //   setIsActionSheetOpen(true);
-    // }else{
-    //   alert('b')
-    //   router.push("/account/login");
-    // }
+    if(user){
+      alert('a')
+      setIsActionSheetOpen(true);
+    }else{
+      alert('b')
+      router.push("/account/login");
+    }
   }
 
   useEffect(() => {
