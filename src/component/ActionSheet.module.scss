@@ -61,9 +61,6 @@
         }
 
         > .type_radio{
-            display: grid;
-            grid-template-rows: auto 1fr;
-            max-height: calc(100dvh);
             
             > header{
                 display: flex;
@@ -73,6 +70,9 @@
                 background-color: #fff;
                 border-radius: 20px 20px 0 0;
                 padding: 0 20px;
+                position: sticky;
+                top: 0;
+                z-index: 2;
             }
 
             > section{
