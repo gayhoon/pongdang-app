@@ -1,6 +1,6 @@
 .layout_read_wrap{
-    display: grid;
-    grid-template-rows: auto 1fr;
+    display: flex;
+    flex-direction: column;
     max-height: 100dvh;
 
     &:has(.comment_write_wrap){
@@ -16,6 +16,7 @@
             padding: 0 20px;
             height: 60px;
             position: relative;
+            flex-shrink: 0;
 
             > .center{
                 position: absolute;
