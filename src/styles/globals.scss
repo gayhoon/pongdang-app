@@ -12,6 +12,7 @@ body,
 .root {  /* 당신이 쓰는 루트 클래스 */
   padding-top: env(safe-area-inset-top, 20px);  // 안전 여백
   box-sizing: border-box;
+  height: 100%;
 }
 
 .root{
