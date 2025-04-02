@@ -2,12 +2,14 @@
     display: flex;
     flex-direction: column;
     max-height: 100dvh;
+    background-color: green;
 
     &:has(.comment_write_wrap){
         padding-bottom: 56px;
     }
     
     > header{
+        background-color: red;
 
         &.layout_read_wrap_header{
             display: flex;
@@ -42,7 +44,8 @@
     }
 
     > .comment_write_wrap{
-        background-color: #fff;
+        // background-color: #fff;
+        background-color: blue;
         position: fixed;
         bottom: 0;
         width: 100%;
