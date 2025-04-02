@@ -22,7 +22,6 @@ export default function ListWriteControl() {
   // 로그인된 상태라면 actionSheet를 보여주고, 아니라면 로그인화면으로 이동
   const checkLogin = () => {
     if(user){
-      alert('a')
       setIsActionSheetOpen(true);
     }else{
       router.push("/account/login");
@@ -35,7 +34,6 @@ export default function ListWriteControl() {
   
   return (
     <>
-      <div onClick={checkLogin}>ㅇㅁㄴㅇㄻ테스</div>
       <button type="button" className={styles.btn_write} onClick={checkLogin}><IcListWrite/>글쓰기</button>
       <ActionSheet type="list" isOpen={isActionSheetOpen} onClose={() => setIsActionSheetOpen(false)} />
     </>
