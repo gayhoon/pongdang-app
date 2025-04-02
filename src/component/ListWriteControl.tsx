@@ -40,6 +40,7 @@ export default function ListWriteControl() {
   
   return (
     <>
+      <div onClick={checkLogin}>ㅇㅁㄴㅇㄻ테스</div>
       <button type="button" className={styles.btn_write} onClick={checkLogin}><IcListWrite/>글쓰기</button>
       <ActionSheet type="list" isOpen={isActionSheetOpen} onClose={() => setIsActionSheetOpen(false)} />
     </>
