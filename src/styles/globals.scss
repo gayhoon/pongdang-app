@@ -4,7 +4,8 @@ html, body{
     touch-action: manipulation; /* 줌, 더블 탭 방지 */
     -ms-touch-action: manipulation; /* IE 지원 */
     overscroll-behavior: contain; /* 추가적인 화면 확대 방지 */
-
+    padding-top: env(safe-area-inset-top, 20px);
+    box-sizing: border-box;
 }
 
 .root{
