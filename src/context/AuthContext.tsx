@@ -13,7 +13,6 @@ type User = {
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     fetchUser: () => Promise<void>; // 로그인 후 즉시 호출 가능하도록 fetchUser 추가
     deleteUser: () => Promise<void>; // 회원탈퇴 함수 추가
-    loading: boolean; // 🔥 추가
   };
 
 // 로그인 상태 Context 생성
@@ -22,7 +21,6 @@ const AuthContext = createContext<AuthContextType | null>(null);
 // Context Provider 생성
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<{ email: string; nickname: string, profileImage: string } | null>(null);
-  const [loading, setLoading] = useState(true); // 🔥 추가
 
   // 서버에서 사용자 정보 가져오기
   const fetchUser = async () => {
@@ -49,7 +47,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.error("사용자 정보 요청 실패:", error);
       setUser(null);
     } finally{
-      setLoading(false); // 무조건 로딩 종료
     }
   };
 
@@ -84,7 +81,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, fetchUser, deleteUser, loading }}>
+    <AuthContext.Provider value={{ user, setUser, fetchUser, deleteUser }}>
       {children}
     </AuthContext.Provider>
   );

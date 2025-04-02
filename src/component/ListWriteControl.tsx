@@ -11,7 +11,7 @@ import styles from "./ListWriteControl.module.scss";
 
 export default function ListWriteControl() {
 
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
 
   // 하위 특정 경로내 페이지는 본 레이아웃 적용 금지
