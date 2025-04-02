@@ -20,7 +20,7 @@ export const LoadingProvider = ({ children }: { children: React.ReactNode }) => 
     // 최소 로딩 지속 시간 설정 (UX 보장)
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 50000); // 여기서 500ms 정도 유지
+    }, 500); // 여기서 500ms 정도 유지
 
     return () => clearTimeout(timeout);
   }, [pathname]);
