@@ -18,13 +18,11 @@ export default function ListWriteControl() {
   const pathname = usePathname();
 
   const [isActionSheetOpen, setIsActionSheetOpen] = useState(false);
-
-  // 🔐 아직 인증 정보 로딩 중이면 렌더링 중단 (or 로딩 UI)
-  if (loading) return null;
   
   // 로그인된 상태라면 actionSheet를 보여주고, 아니라면 로그인화면으로 이동
   const checkLogin = () => {
     if(user){
+      alert('a')
       setIsActionSheetOpen(true);
     }else{
       router.push("/account/login");
