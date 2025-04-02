@@ -30,6 +30,7 @@ export default async function FishingTrip() {
       <Header type="submain" />
       <NavCommunity />
       <div className={styles.container}>
+        <ListWriteButton />
         <div className={styles.fishing_trip_wrap}>
           <ul className={styles.fishing_trip_list_wrap}>
             {posts && posts.length > 0 ? (
