@@ -1,7 +1,4 @@
 .layout_write_wrap{
-    display: grid;
-    grid-template-rows: auto 1fr;
-    max-height: 100dvh;
     
     > header{
 
@@ -11,6 +8,10 @@
             justify-content: space-between;
             padding: 0 20px;
             height: 60px;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background-color: #fff;
 
             > .right{
                 display: flex;

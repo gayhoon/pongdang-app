@@ -22,9 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* 뷰포트 설정으로 확대 방지 */}
-        <meta 
-          name="viewport" 
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, interactive-widget=resizes-content" 
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
         />
       </head>
       <body>

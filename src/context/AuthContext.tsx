@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error("사용자 정보 요청 실패:", error);
       setUser(null);
+    } finally{
     }
   };
 

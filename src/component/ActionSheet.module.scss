@@ -2,10 +2,11 @@
     position: fixed;
     z-index: 999;
     background-color: rgba(0,0,0,0.7);
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 100dvh;
+    height: 100%;
 
     @keyframes action_sheet_show {
         0% {
@@ -28,7 +29,7 @@
         animation: 0.3s ease 0s 1 normal none running action_sheet_show;
         max-width: 600px;
         margin: 0 auto;
-        max-height: calc(100dvh - 40px);
+        max-height: calc(100% - 40px);
 
         &.active{
             animation: 0.3s ease 0s 1 normal none running action_sheet_show;
@@ -61,9 +62,6 @@
         }
 
         > .type_radio{
-            display: grid;
-            grid-template-rows: auto 1fr;
-            max-height: calc(100dvh);
             
             > header{
                 display: flex;
@@ -73,6 +71,9 @@
                 background-color: #fff;
                 border-radius: 20px 20px 0 0;
                 padding: 0 20px;
+                position: sticky;
+                top: 0;
+                z-index: 2;
             }
 
             > section{
@@ -81,7 +82,7 @@
                 flex-direction: column;
                 gap: 20px;
                 overflow-y: auto;
-                max-height: calc(100dvh - 60px - 40px);
+                max-height: calc(100% - 60px - 40px);
                 
                 > h2{
                     font-size: 2rem;
