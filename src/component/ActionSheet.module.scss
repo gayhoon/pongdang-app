@@ -29,7 +29,10 @@
         animation: 0.3s ease 0s 1 normal none running action_sheet_show;
         max-width: 600px;
         margin: 0 auto;
-        height: calc(100% - 40px);
+        
+        &.height_full{
+            height: calc(100% - 40px);
+        }
 
         &.active{
             animation: 0.3s ease 0s 1 normal none running action_sheet_show;
