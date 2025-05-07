@@ -187,7 +187,7 @@ export default function ActionSheet({ type, isOpen, onClose, onCheckedItemsChang
     <>
       {isOpen && (
         <div className={`${styles.action_sheet_wrap} ${isOpen && styles.active}`} onClick={onClose}>
-          <div className={`${styles.action_sheet_min} '${viewMode === "writeMode" || "readMode" ? styles.height_full : ''}`} onClick={(e) => e.stopPropagation()}>
+          <div className={styles.action_sheet_min} onClick={(e) => e.stopPropagation()}>
             {viewMode === "list" && (
               <div className={styles.type_list}>
                 <ul>
