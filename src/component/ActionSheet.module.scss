@@ -29,13 +29,18 @@
         animation: 0.3s ease 0s 1 normal none running action_sheet_show;
         max-width: 600px;
         margin: 0 auto;
-        max-height: calc(100% - 40px);
+        
+        &.height_full{
+            height: calc(100% - 40px);
+        }
 
         &.active{
             animation: 0.3s ease 0s 1 normal none running action_sheet_show;
         }
 
         > .type_list{
+            height: 100%;
+
             > ul{
                 display: flex;
                 flex-direction: column;
@@ -62,6 +67,7 @@
         }
 
         > .type_radio{
+            height: 100%;
             
             > header{
                 display: flex;
@@ -83,6 +89,7 @@
                 gap: 20px;
                 overflow-y: auto;
                 max-height: calc(100% - 60px - 40px);
+                height: calc(100dvh - 100px);
                 
                 > h2{
                     font-size: 2rem;
