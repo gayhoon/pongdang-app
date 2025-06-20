@@ -18,7 +18,7 @@ export default function KakaoMapPrint() {
     script.async = false;
 
     document.head.appendChild(script);
-
+  
     script.onload = () => {
       if (window.kakao) {
         window.kakao.maps.load(() => {
